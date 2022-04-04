@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, Button, FlatList, ScrollView } from "react-native";
+import { Text, View, Button, FlatList, SafeAreaView, Item } from "react-native";
 import styles from "../../Styles";
 
 export default function ListItem(props) {
@@ -25,11 +25,9 @@ export default function ListItem(props) {
 
   return (
     <>
-      <ScrollView>
-        <View style={{ flex: 1 }}>
-          <FlatList data={listItem} renderItem={renderItem} keyExtractor={(item) => item.id} />
-        </View>
-      </ScrollView>
+      <SafeAreaView>
+        <FlatList data={listItem} renderItem={renderItem} keyExtractor={(item) => item.id} />
+      </SafeAreaView>
     </>
   );
 }

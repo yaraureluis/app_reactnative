@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, Button, TextInput, StyleSheet, Separator } from "react-native";
+import { Text, View, Button, TextInput } from "react-native";
 import styles from "../Styles";
 import ListContainer from "./List/ListContainer";
 
