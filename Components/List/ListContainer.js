@@ -16,6 +16,7 @@ export default function ListContainer(props) {
     setItemSelected({});
     setModalVisible(!modalVisible);
   };
+
   const onHandlerModal = (id) => {
     setItemSelected(listItem.filter((item) => item.id === id)[0]);
     setModalVisible(!modalVisible);

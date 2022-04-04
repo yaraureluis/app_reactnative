@@ -6,7 +6,8 @@ import ListContainer from "./List/ListContainer";
 export default function AddItem() {
   const [textItem, setTextItem] = useState();
   const [priceItem, setPriceItem] = useState();
-  const [listItem, setListItem] = useState([{ id: 1, value: "Detergente", price: 300 }]);
+  const [listItem, setListItem] = useState([]);
+  const [ItemCount, setItemCount] = useState(0);
 
   const onHandlerChangeItem = (texto) => {
     setTextItem(texto);
@@ -16,8 +17,10 @@ export default function AddItem() {
   };
 
   const addItem = () => {
+    let contador = ItemCount + 1;
     if (textItem != "" && priceItem != "") {
-      setListItem((items) => [...items, { id: items[items.length - 1].id + 1, value: textItem, price: priceItem }]);
+      setListItem([...listItem, { id: contador, value: textItem, price: priceItem }]);
+      setItemCount(contador);
       setTextItem("");
       setPriceItem("");
     }

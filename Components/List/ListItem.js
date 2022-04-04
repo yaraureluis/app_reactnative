@@ -9,7 +9,7 @@ export default function ListItem(props) {
     <View style={styles.containerLista}>
       <View>
         <Text style={styles.textLista}>
-          {data.item.id} - {data.item.value} - ${data.item.price}
+          {data.index + 1}.) {data.item.value} - ${data.item.price}
         </Text>
       </View>
       <View style={styles.btnContainer}>
@@ -22,11 +22,10 @@ export default function ListItem(props) {
       </View>
     </View>
   );
-
   return (
     <>
       <SafeAreaView>
-        <FlatList data={listItem} renderItem={renderItem} keyExtractor={(item) => item.id} />
+        <FlatList data={listItem} renderItem={renderItem} keyExtractor={(item) => item.id} scrollEnabled={true} />
       </SafeAreaView>
     </>
   );
