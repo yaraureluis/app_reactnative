@@ -6,11 +6,17 @@ Para inicializar la app debes utilzar el comando expo start
 
 ## MUESTRA DE LA APP
 
-## ![image](<https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp%20(1).gif?raw=true>)
+## ![image](https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp.gif?raw=true)
 
 ## SCREENSHOTS DE LA APP
 
-## ![image](<https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp%20(1).jpg?raw=true>)
+## ![image](https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp1.jpg?raw=true)
+
+## ![image](https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp2.jpg?raw=true)
+
+## ![image](https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp3.jpg?raw=true)
+
+## ![image](https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp4.jpg?raw=true)
 
 ## Autor
 
