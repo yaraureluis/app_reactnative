@@ -1,12 +1,20 @@
 import { Text, View, Button, ImageBackground, StyleSheet, Image, FlatList } from "react-native";
+import { useFonts } from "expo-font";
+import AppLoading from "expo-app-loading";
 
 export default function WelcomeScreen({ onHandleClick }) {
+  const [loaded] = useFonts({
+    GrapeNuts: require("../assets/fonts/GrapeNuts-Regular.ttf"),
+  });
+
+  if (!loaded) return <AppLoading />;
+
   const image = { uri: "https://www.okchicas.com/wp-content/uploads/2019/05/Wallpaper-bonitos-para-celular-16-1.jpg" };
 
   let myLists = [
-    { id: 1, title: "Lista 1" },
-    { id: 2, title: "Lista 2" },
-    { id: 3, title: "Lista 3" },
+    { id: 1, title: "Lista de Prueba 1" },
+    { id: 2, title: "Lista de Prueba 2" },
+    { id: 3, title: "Lista de Prueba 3" },
   ];
 
   const Item = ({ title }) => (
@@ -57,9 +65,9 @@ const styles = StyleSheet.create({
   },
   brandText: {
     color: "white",
-    fontSize: 42,
+    fontSize: 60,
     lineHeight: 84,
-    fontWeight: "bold",
+    fontFamily: "GrapeNuts",
     textAlign: "center",
     backgroundColor: "#000000c0",
     flex: 1,

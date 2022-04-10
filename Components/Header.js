@@ -1,6 +1,14 @@
 import { Text, View, Button, StyleSheet } from "react-native";
+import { useFonts } from "expo-font";
+import AppLoading from "expo-app-loading";
 
 export default function Header(props) {
+  const [loaded] = useFonts({
+    GrapeNuts: require("../assets/fonts/GrapeNuts-Regular.ttf"),
+  });
+
+  if (!loaded) return <AppLoading />;
+
   const { texto, onHandleClickBack } = props;
   return (
     <>
@@ -46,9 +54,8 @@ const styles = StyleSheet.create({
   },
   textHeader: {
     color: "white",
-    fontWeight: "bold",
-    fontSize: 22,
-    fontStyle: "italic",
+    fontFamily: "GrapeNuts",
+    fontSize: 30,
     flex: 2,
     textAlign: "center",
   },
