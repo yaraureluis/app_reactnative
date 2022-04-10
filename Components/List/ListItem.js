@@ -9,7 +9,7 @@ export default function ListItem(props) {
     <View style={styles.containerLista}>
       <View>
         <Text style={styles.textLista}>
-          {data.index + 1}.) {data.item.value} - ${data.item.price}
+          {data.index + 1}. {data.item.value} - ${data.item.price}
         </Text>
       </View>
       <View style={styles.btnContainer}>

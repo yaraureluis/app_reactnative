@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, Button, TextInput } from "react-native";
-import styles from "../Styles";
+import { Text, View, Button, TextInput, StyleSheet } from "react-native";
 import ListContainer from "./List/ListContainer";
 
 export default function AddItem() {
@@ -35,10 +34,10 @@ export default function AddItem() {
           <TextInput style={styles.textInputs} placeholder="Precio" value={priceItem} onChangeText={onHandlerChangePrice} />
           <View style={styles.btnContainer}>
             <View style={styles.btn1}>
-              <Button title="Foto" color="#65c4c9" />
+              <Button title="Foto" color="#F79D9D" />
             </View>
             <View style={styles.btn1}>
-              <Button title="Agregar" color="#00bcaa" onPress={addItem} />
+              <Button title="Agregar" color="#F79D9D" onPress={addItem} />
             </View>
           </View>
         </View>
@@ -47,3 +46,36 @@ export default function AddItem() {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  listado: {
+    backgroundColor: "#5fcdcf",
+    padding: 15,
+    width: "100%",
+    alignItems: "center",
+  },
+  textNormal: {
+    textAlign: "center",
+    marginBottom: 5,
+    fontWeight: "bold",
+    color: "white",
+    fontSize: 20,
+  },
+  textInputs: {
+    backgroundColor: "white",
+    padding: 5,
+    marginBottom: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: "#F79D9D",
+    borderRadius: 5,
+    width: 320,
+    fontSize: 16,
+  },
+  btnContainer: {
+    flexDirection: "row",
+  },
+  btn1: {
+    width: 150,
+    marginHorizontal: 5,
+  },
+});

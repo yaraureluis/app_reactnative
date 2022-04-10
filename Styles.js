@@ -120,22 +120,7 @@ export default styles = StyleSheet.create({
     paddingHorizontal: 5,
     justifyContent: "center",
   },
-  headerContainer: {
-    backgroundColor: "#c1e0e0",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    height: 90,
-    paddingTop: 40,
-    borderBottomColor: "#0b696b",
-    borderBottomWidth: 4,
-  },
-  textHeader: {
-    color: "#0b696b",
-    fontWeight: "bold",
-    fontSize: 22,
-    fontStyle: "italic",
-  },
+
   addBtn: {
     borderRadius: 100,
     borderColor: "white",
