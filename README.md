@@ -4,6 +4,8 @@ Hola a todos, en este repositorio podrán encontrar las actividades, ejemplos y 
 
 Para inicializar la app debes utilzar el comando expo start
 
+## MUESTRAS DE LA APP (Mobile)
+
 ## Autor
 
 Ing. Luis Alexander Yaraure Cossi, estudiante de la Carrera Desarrollo Full Stack y Desarrollo de Aplicaciones
