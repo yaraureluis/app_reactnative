@@ -4,7 +4,13 @@ Hola a todos, en este repositorio podrán encontrar las actividades, ejemplos y 
 
 Para inicializar la app debes utilzar el comando expo start
 
-## MUESTRAS DE LA APP (Mobile)
+## MUESTRA DE LA APP
+
+## ![image](<https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp%20(1).gif?raw=true>)
+
+## SCREENSHOTS DE LA APP
+
+## ![image](<https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp%20(1).jpg?raw=true>)
 
 ## Autor
 
