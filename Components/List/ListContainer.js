@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import ModalItem from "../Modal";
-import styles from "../../Styles";
 import ListItem from "./ListItem";
 
 export default function ListContainer(props) {
-  const { listItem, setListItem } = props;
-  //   const [textItem, setTextItem] = useState();
+  const { listItem, setListItem, navigation } = props;
   const [itemSelected, setItemSelected] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -30,10 +28,28 @@ export default function ListContainer(props) {
       <View style={styles.listadoItems}>
         <Text style={styles.tituloLista}>ARTÍCULOS EN MI LISTA</Text>
 
-        <ListItem onHandlerModal={onHandlerModal} listItem={listItem} />
+        <ListItem onHandlerModal={onHandlerModal} listItem={listItem} navigation={navigation} />
       </View>
 
       <ModalItem onDelete={onHandlerDelete} item={itemSelected} visible={modalVisible} onCancel={closeModal} />
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  listadoItems: {
+    borderTopColor: "#00bcaa",
+    borderTopWidth: 3,
+    backgroundColor: "white",
+    padding: 15,
+    alignItems: "center",
+    width: "100%",
+  },
+  tituloLista: {
+    textAlign: "center",
+    marginBottom: 5,
+    fontWeight: "bold",
+    color: "#00bcaa",
+    fontSize: 20,
+  },
+});

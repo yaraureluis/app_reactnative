@@ -14,13 +14,7 @@ export default function Header(props) {
     <>
       <View style={styles.headerContainer}>
         <View style={styles.container}>
-          <View style={styles.btnBack}>
-            <Button title="Atrás" color="#65c4c9" onPress={onHandleClickBack} />
-          </View>
           <Text style={styles.textHeader}>{texto}</Text>
-          <View style={styles.btnClear}>
-            <Button title="Eliminar" color="#65c4c9" />
-          </View>
         </View>
       </View>
     </>
@@ -34,21 +28,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     width: "90%",
   },
-  btnBack: {
-    flex: 1,
-    alignContent: "flex-start",
-  },
-  btnClear: {
-    flex: 1,
-    alignContent: "flex-end",
-  },
   headerContainer: {
     backgroundColor: "#F79D9D",
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    height: 100,
-    paddingTop: 40,
+    height: 80,
+    paddingTop: 20,
     borderBottomColor: "white",
     borderBottomWidth: 4,
   },
@@ -56,7 +42,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontFamily: "GrapeNuts",
     fontSize: 30,
-    flex: 2,
     textAlign: "center",
   },
 });

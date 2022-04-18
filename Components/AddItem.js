@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Text, View, Button, TextInput, StyleSheet } from "react-native";
 import ListContainer from "./List/ListContainer";
 
-export default function AddItem() {
+export default function AddItem({ navigation }) {
   const [textItem, setTextItem] = useState();
   const [priceItem, setPriceItem] = useState();
+  const [location, setLocation] = useState();
   const [listItem, setListItem] = useState([]);
   const [ItemCount, setItemCount] = useState(0);
 
@@ -14,6 +15,9 @@ export default function AddItem() {
   const onHandlerChangePrice = (precio) => {
     setPriceItem(precio);
   };
+  const onHandlerChangeLocation = (lugar) => {
+    setLocation(lugar);
+  };
 
   const addItem = () => {
     let contador = ItemCount + 1;
@@ -22,6 +26,7 @@ export default function AddItem() {
       setItemCount(contador);
       setTextItem("");
       setPriceItem("");
+      setLocation("");
     }
   };
 
@@ -32,6 +37,7 @@ export default function AddItem() {
           <Text style={styles.textNormal}>NUEVO ARTÍCULO</Text>
           <TextInput style={styles.textInputs} placeholder="Nombre" value={textItem} onChangeText={onHandlerChangeItem} />
           <TextInput style={styles.textInputs} placeholder="Precio" value={priceItem} onChangeText={onHandlerChangePrice} />
+          <TextInput style={styles.textInputs} placeholder="Lugar" value={location} onChangeText={onHandlerChangeLocation} />
           <View style={styles.btnContainer}>
             <View style={styles.btn1}>
               <Button title="Foto" color="#F79D9D" />
@@ -41,7 +47,7 @@ export default function AddItem() {
             </View>
           </View>
         </View>
-        <ListContainer listItem={listItem} setListItem={setListItem} />
+        <ListContainer listItem={listItem} setListItem={setListItem} navigation={navigation} />
       </View>
     </>
   );

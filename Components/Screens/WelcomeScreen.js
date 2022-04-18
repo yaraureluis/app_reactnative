@@ -2,14 +2,14 @@ import { Text, View, Button, ImageBackground, StyleSheet, Image, FlatList } from
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 
-export default function WelcomeScreen({ onHandleClick }) {
+export default function WelcomeScreen({ navigation }) {
   const [loaded] = useFonts({
-    GrapeNuts: require("../assets/fonts/GrapeNuts-Regular.ttf"),
+    GrapeNuts: require("../../assets/fonts/GrapeNuts-Regular.ttf"),
   });
 
   if (!loaded) return <AppLoading />;
 
-  const image = { uri: "https://www.okchicas.com/wp-content/uploads/2019/05/Wallpaper-bonitos-para-celular-16-1.jpg" };
+  const image = require("../../assets/img/wallpaper_patilla2.jpg");
 
   let myLists = [
     { id: 1, title: "Lista de Prueba 1" },
@@ -18,7 +18,7 @@ export default function WelcomeScreen({ onHandleClick }) {
   ];
 
   const Item = ({ title }) => (
-    <Text style={styles.itemList} onPress={onHandleClick}>
+    <Text style={styles.itemList} onPress={() => navigation.navigate("List")}>
       {title}
     </Text>
   );
@@ -30,7 +30,7 @@ export default function WelcomeScreen({ onHandleClick }) {
         <ImageBackground source={image} resizeMode="cover" style={styles.image}>
           <Text style={styles.brandText}>Wish List!</Text>
           <View style={styles.btnNuevaLista}>
-            <Button title="Nueva lista!" color="#F79D9D" onPress={onHandleClick} />
+            <Button title="Nueva lista!" color="#F79D9D" onPress={() => navigation.navigate("List")} />
           </View>
           <View style={styles.containerListas}>
             {!myLists.length ? (
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   brandText: {
     color: "white",
     fontSize: 60,
-    lineHeight: 84,
+    lineHeight: 75,
     fontFamily: "GrapeNuts",
     textAlign: "center",
     backgroundColor: "#000000c0",

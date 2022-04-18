@@ -1,6 +1,5 @@
 import react from "react";
 import { Text, View, Button, Modal, StyleSheet } from "react-native";
-import styles from "../Styles";
 
 export default function ModalItem(props) {
   const { visible, onDelete, item, onCancel } = props;
@@ -33,3 +32,56 @@ export default function ModalItem(props) {
     </Modal>
   );
 }
+
+const styles = StyleSheet.create({
+  modalCentered: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#F3F3F3",
+  },
+  modalView: {
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#c1e0e0",
+    width: 250,
+    height: 150,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  },
+  tituloModal: {
+    flex: 4,
+    backgroundColor: "#c1e0e0",
+    width: "100%",
+    color: "white",
+    alignItems: "center",
+    justifyContent: "space-around",
+    flexDirection: "row",
+    textAlignVertical: "center",
+  },
+  cuerpoModal: {
+    flex: 7,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  textNormal: {
+    textAlign: "center",
+    marginBottom: 5,
+    fontWeight: "bold",
+    color: "#00bcaa",
+    fontSize: 20,
+  },
+  btnContainer: {
+    flexDirection: "row",
+  },
+  botonModal: {
+    width: 100,
+    flex: 2,
+    marginHorizontal: 5,
+    paddingBottom: 15,
+    paddingHorizontal: 5,
+    justifyContent: "center",
+  },
+});
