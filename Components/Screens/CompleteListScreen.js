@@ -3,32 +3,29 @@ import { Text, View, Button, ImageBackground, StyleSheet, Image, FlatList } from
 export default function CompleteListScreen({ navigation }) {
   // aqui todo
   let myLists = [
-    { id: 1, title: "Lista de Prueba" },
-    { id: 2, title: "Lista de Prueba" },
-    { id: 3, title: "Lista de Prueba" },
-    { id: 4, title: "Lista de Prueba" },
-    { id: 5, title: "Lista de Prueba" },
-    { id: 6, title: "Lista de Prueba" },
-    { id: 7, title: "Lista de Prueba" },
-    { id: 8, title: "Lista de Prueba" },
-    { id: 9, title: "Lista de Prueba" },
-    { id: 10, title: "Lista de Prueba" },
-    { id: 11, title: "Lista de Prueba" },
-    { id: 12, title: "Lista de Prueba" },
-    { id: 13, title: "Lista de Prueba" },
-    { id: 14, title: "Lista de Prueba" },
-    { id: 15, title: "Lista de Prueba" },
-    { id: 16, title: "Lista de Prueba" },
-    { id: 17, title: "Lista de Prueba" },
-    { id: 18, title: "Lista de Prueba" },
+    { id: 1, title: "Lista de Prueba 1", date: "05/04/2022" },
+    { id: 2, title: "Lista de Prueba 2", date: "05/04/2022" },
+    { id: 3, title: "Lista de Prueba 3", date: "05/04/2022" },
+    { id: 4, title: "Lista de Prueba 4", date: "05/04/2022" },
+    { id: 5, title: "Lista de Prueba 5", date: "05/04/2022" },
+    { id: 6, title: "Lista de Prueba 6", date: "05/04/2022" },
+    { id: 7, title: "Lista de Prueba 7", date: "05/04/2022" },
+    { id: 8, title: "Lista de Prueba 8", date: "05/04/2022" },
+    { id: 9, title: "Lista de Prueba 9", date: "05/04/2022" },
+    { id: 10, title: "Lista de Prueba 10", date: "05/04/2022" },
+    { id: 11, title: "Lista de Prueba 11", date: "05/04/2022" },
+    { id: 12, title: "Lista de Prueba 12", date: "05/04/2022" },
   ];
 
-  const Item = ({ title }) => (
-    <Text style={styles.itemList} onPress={() => navigation.navigate("List")}>
-      {title}
-    </Text>
+  const Item = ({ title, date }) => (
+    <View style={styles.containerListItem}>
+      <Text style={styles.itemList} onPress={() => navigation.navigate("List")}>
+        {title}
+      </Text>
+      <Text style={styles.itemDate}>{date}</Text>
+    </View>
   );
-  const renderItem = ({ item }) => <Item title={item.title} />;
+  const renderItem = ({ item }) => <Item title={item.title} date={item.date} />;
   return (
     <>
       <Text style={styles.tituloLista}>Selecciona una lista</Text>
@@ -42,6 +39,14 @@ export default function CompleteListScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  containerListItem: {
+    width: "100%",
+    backgroundColor: "white",
+    marginVertical: 2,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
   image: {
     flex: 1,
@@ -72,11 +77,19 @@ const styles = StyleSheet.create({
   itemList: {
     color: "#65c4c9",
     fontWeight: "bold",
-    lineHeight: 35,
     fontSize: 20,
     width: "100%",
     textAlign: "left",
-    padding: 2,
+    marginBottom: 0,
+    paddingBottom: 0,
+    paddingTop: 2,
+  },
+  itemDate: {
+    color: "grey",
+    fontSize: 15,
+    fontStyle: "italic",
+    textAlign: "left",
+    paddingBottom: 2,
   },
   tituloLista: {
     color: "white",
