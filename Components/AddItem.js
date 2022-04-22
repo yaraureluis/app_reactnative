@@ -40,10 +40,10 @@ export default function AddItem({ navigation }) {
           <TextInput style={styles.textInputs} placeholder="Lugar" value={location} onChangeText={onHandlerChangeLocation} />
           <View style={styles.btnContainer}>
             <View style={styles.btn1}>
-              <Button title="Foto" color="#F79D9D" />
+              <Button title="Agregar foto" color="#F79D9D" />
             </View>
             <View style={styles.btn1}>
-              <Button title="Agregar" color="#F79D9D" onPress={addItem} />
+              <Button title="Agregar ARTÍCULO" color="#F79D9D" onPress={addItem} />
             </View>
           </View>
         </View>

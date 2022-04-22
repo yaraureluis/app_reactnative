@@ -10,13 +10,11 @@ const Stack = createNativeStackNavigator();
 const AppNavigation = () => {
   return (
     <>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={WelcomeScreen} options={{ headerStyle: { backgroundColor: "#F79D9D" }, headerTintColor: "white" }} />
-          <Stack.Screen name="List" component={AddScreen} options={{ headerStyle: { backgroundColor: "#FFD4D4" }, headerTintColor: "white" }} />
-          <Stack.Screen name="Detail" component={DetailScreen} options={{ headerStyle: { backgroundColor: "#FFD4D4" }, headerTintColor: "white" }} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={WelcomeScreen} options={{ headerStyle: { backgroundColor: "#F79D9D" }, headerTintColor: "white" }} />
+        <Stack.Screen name="List" component={AddScreen} options={{ headerStyle: { backgroundColor: "#F79D9D" }, headerTintColor: "white" }} />
+        <Stack.Screen name="Detail" component={DetailScreen} options={{ headerStyle: { backgroundColor: "#F79D9D" }, headerTintColor: "white" }} />
+      </Stack.Navigator>
     </>
   );
 };

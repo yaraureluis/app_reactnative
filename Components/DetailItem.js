@@ -91,11 +91,11 @@ const styles = StyleSheet.create({
   },
   detailImg: {
     width: "95%",
-    height: 180,
+    height: 210,
   },
   mapa: {
     width: "95%",
-    height: 180,
+    height: 210,
     borderRadius: 10,
   },
   imgContainer: {

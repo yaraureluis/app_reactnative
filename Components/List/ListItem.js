@@ -3,6 +3,7 @@ import { Text, View, Button, FlatList, SafeAreaView, StyleSheet } from "react-na
 
 export default function ListItem(props) {
   const { listItem, onHandlerModal, navigation } = props;
+
   const renderItem = (data) => (
     <View style={styles.containerLista}>
       <View>
@@ -22,9 +23,9 @@ export default function ListItem(props) {
   );
   return (
     <>
-      <SafeAreaView>
+      <View>
         <FlatList data={listItem} renderItem={renderItem} keyExtractor={(item) => item.id} scrollEnabled={true} />
-      </SafeAreaView>
+      </View>
     </>
   );
 }

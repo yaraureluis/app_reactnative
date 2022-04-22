@@ -1,20 +1,26 @@
 import { Text, View, Button, ImageBackground, StyleSheet, Image, FlatList } from "react-native";
-import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
 
-export default function WelcomeScreen({ navigation }) {
-  const [loaded] = useFonts({
-    GrapeNuts: require("../../assets/fonts/GrapeNuts-Regular.ttf"),
-  });
-
-  if (!loaded) return <AppLoading />;
-
-  const image = require("../../assets/img/wallpaper_patilla2.jpg");
-
+export default function CompleteListScreen({ navigation }) {
+  // aqui todo
   let myLists = [
-    { id: 1, title: "Lista de Prueba 1" },
-    { id: 2, title: "Lista de Prueba 2" },
-    { id: 3, title: "Lista de Prueba 3" },
+    { id: 1, title: "Lista de Prueba" },
+    { id: 2, title: "Lista de Prueba" },
+    { id: 3, title: "Lista de Prueba" },
+    { id: 4, title: "Lista de Prueba" },
+    { id: 5, title: "Lista de Prueba" },
+    { id: 6, title: "Lista de Prueba" },
+    { id: 7, title: "Lista de Prueba" },
+    { id: 8, title: "Lista de Prueba" },
+    { id: 9, title: "Lista de Prueba" },
+    { id: 10, title: "Lista de Prueba" },
+    { id: 11, title: "Lista de Prueba" },
+    { id: 12, title: "Lista de Prueba" },
+    { id: 13, title: "Lista de Prueba" },
+    { id: 14, title: "Lista de Prueba" },
+    { id: 15, title: "Lista de Prueba" },
+    { id: 16, title: "Lista de Prueba" },
+    { id: 17, title: "Lista de Prueba" },
+    { id: 18, title: "Lista de Prueba" },
   ];
 
   const Item = ({ title }) => (
@@ -23,32 +29,11 @@ export default function WelcomeScreen({ navigation }) {
     </Text>
   );
   const renderItem = ({ item }) => <Item title={item.title} />;
-
   return (
     <>
-      <View style={styles.container}>
-        <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-          <Text style={styles.brandText}>Wish List!</Text>
-          <View style={styles.btnNuevaLista}>
-            <Button title="Nueva lista!" color="#F79D9D" onPress={() => navigation.navigate("List")} />
-          </View>
-          <View style={styles.containerListas}>
-            {!myLists.length ? (
-              <>
-                <Text style={styles.creaTuLista}>TU LISTA DE HOY, TU COMPRA DE MAÑANA!</Text>
-                <Text style={styles.creaTuLista}> CREA TU LISTA DE DESEOS AHORA!</Text>
-              </>
-            ) : (
-              <>
-                <Text style={styles.tituloLista}>Ultimas listas</Text>
-                <View style={styles.listGroup}>
-                  <FlatList data={myLists} renderItem={renderItem} keyExtractor={(item) => item.id} />
-                </View>
-              </>
-            )}
-          </View>
-          <Text style={styles.signature}>Powered by Luis Alexander</Text>
-        </ImageBackground>
+      <Text style={styles.tituloLista}>Selecciona una lista</Text>
+      <View style={styles.listGroup}>
+        <FlatList data={myLists} renderItem={renderItem} keyExtractor={(item) => item.id} />
       </View>
     </>
   );
@@ -87,24 +72,23 @@ const styles = StyleSheet.create({
   itemList: {
     color: "#65c4c9",
     fontWeight: "bold",
-    lineHeight: 30,
-    fontSize: 17,
+    lineHeight: 35,
+    fontSize: 20,
     width: "100%",
+    textAlign: "left",
+    padding: 2,
   },
   tituloLista: {
-    color: "#65c4c9",
+    color: "white",
     fontSize: 22,
     lineHeight: 22,
-    paddingVertical: 10,
-    fontStyle: "italic",
+    paddingVertical: 5,
     textAlign: "center",
     fontWeight: "bold",
-    backgroundColor: "white",
+    backgroundColor: "#00bcaa",
     width: "100%",
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
     flex: 1,
-    borderBottomColor: "#00bcaa",
+    borderBottomColor: "white",
     borderBottomWidth: 2,
     textAlignVertical: "center",
   },
@@ -123,7 +107,8 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
   },
   listGroup: {
-    flex: 9,
+    flex: 15,
+    padding: 10,
   },
   signature: {
     color: "white",
@@ -143,7 +128,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFFc0",
     alignItems: "center",
     height: 30,
-    flex: 2,
+    flex: 3,
     marginBottom: 10,
     borderRadius: 5,
   },
