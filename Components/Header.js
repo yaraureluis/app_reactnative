@@ -1,4 +1,4 @@
-import { Text, View, Button, StyleSheet } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 
@@ -9,7 +9,7 @@ export default function Header(props) {
 
   if (!loaded) return <AppLoading />;
 
-  const { texto, onHandleClickBack } = props;
+  const { texto } = props;
   return (
     <>
       <View style={styles.headerContainer}>

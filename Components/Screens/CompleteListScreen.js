@@ -1,36 +1,33 @@
 import { Text, View, Button, ImageBackground, StyleSheet, Image, FlatList } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import { selectList } from "../store/actions/list.action";
 
 export default function CompleteListScreen({ navigation }) {
-  // aqui todo
-  let myLists = [
-    { id: 1, title: "Lista de Prueba 1", date: "05/04/2022" },
-    { id: 2, title: "Lista de Prueba 2", date: "05/04/2022" },
-    { id: 3, title: "Lista de Prueba 3", date: "05/04/2022" },
-    { id: 4, title: "Lista de Prueba 4", date: "05/04/2022" },
-    { id: 5, title: "Lista de Prueba 5", date: "05/04/2022" },
-    { id: 6, title: "Lista de Prueba 6", date: "05/04/2022" },
-    { id: 7, title: "Lista de Prueba 7", date: "05/04/2022" },
-    { id: 8, title: "Lista de Prueba 8", date: "05/04/2022" },
-    { id: 9, title: "Lista de Prueba 9", date: "05/04/2022" },
-    { id: 10, title: "Lista de Prueba 10", date: "05/04/2022" },
-    { id: 11, title: "Lista de Prueba 11", date: "05/04/2022" },
-    { id: 12, title: "Lista de Prueba 12", date: "05/04/2022" },
-  ];
+  const datos = useSelector((state) => state.todas.listas);
+  const dispatch = useDispatch();
 
-  const Item = ({ title, date }) => (
+  const handledSelectedList = (item) => {
+    console.log("<<<<<<<<<<< click en lista de MIS LISTAS >>>>>>>");
+    console.log("DATOS ID: " + +item.id);
+    console.log("DATOS TITLE: " + item.title);
+    dispatch(selectList(+item.id));
+    navigation.navigate("List", { id: +item.id, title: item.title });
+  };
+
+  const Item = ({ item }) => (
     <View style={styles.containerListItem}>
-      <Text style={styles.itemList} onPress={() => navigation.navigate("List")}>
-        {title}
+      <Text style={styles.itemList} onPress={() => handledSelectedList(item)}>
+        {item.title}
       </Text>
-      <Text style={styles.itemDate}>{date}</Text>
+      <Text style={styles.itemDate}>{item.date}</Text>
     </View>
   );
-  const renderItem = ({ item }) => <Item title={item.title} date={item.date} />;
+  const renderItem = ({ item }) => <Item item={item} />;
   return (
     <>
       <Text style={styles.tituloLista}>Selecciona una lista</Text>
       <View style={styles.listGroup}>
-        <FlatList data={myLists} renderItem={renderItem} keyExtractor={(item) => item.id} />
+        <FlatList data={datos} renderItem={renderItem} keyExtractor={(item) => item.id} />
       </View>
     </>
   );

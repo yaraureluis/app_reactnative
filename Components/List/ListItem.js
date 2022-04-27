@@ -1,31 +1,57 @@
-import React from "react";
-import { Text, View, Button, FlatList, SafeAreaView, StyleSheet } from "react-native";
+import React, { useEffect } from "react";
+import { Text, View, Button, FlatList, StyleSheet, ScrollView } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { filteredList, selectListItem } from "../store/actions/listItem.action";
 
 export default function ListItem(props) {
+  const dispatch = useDispatch();
+  const lista = useSelector((state) => state.lista.filteredList);
+  const listaSeleccionada = useSelector((state) => state.todas.selected);
   const { listItem, onHandlerModal, navigation } = props;
 
-  const renderItem = (data) => (
-    <View style={styles.containerLista}>
-      <View>
-        <Text style={styles.textLista} onPress={() => navigation.navigate("Detail")}>
-          {data.index + 1}. {data.item.value} - ${data.item.price}
-        </Text>
-      </View>
-      <View style={styles.btnContainer}>
-        <View style={styles.btn1}>
-          <Button title="Eliminar" color="#65c4c9" onPress={onHandlerModal.bind(this, data.item.id)} />
+  useEffect(() => {
+    console.log("USE EFECT >>> id: " + listaSeleccionada.id);
+    dispatch(filteredList(listaSeleccionada.id));
+  }, []);
+
+  useEffect(() => {
+    // listItem = lista;
+  }, [lista]);
+
+  const handleSelected = (data) => {
+    dispatch(selectListItem(data, data.item_id));
+    console.log("ITEM SELECCIONADO PARA DETALLE: " + data.value);
+    console.log("DATA ENVIADA PARA DETALLE: " + data);
+    navigation.navigate("Detail", { data });
+  };
+
+  const Item = ({ data }) => (
+    <>
+      <View style={styles.containerLista}>
+        <View>
+          <Text style={styles.textLista} onPress={() => handleSelected(data.item)}>
+            {data.index + 1}. {data.item.value} - ${data.item.price}
+          </Text>
         </View>
-        <View style={styles.btn1}>
-          <Button title="Ya lo compré" color="#00bcaa" />
+        <View style={styles.btnContainer}>
+          <View style={styles.btn1}>
+            <Button title="Eliminar" color="#65c4c9" onPress={onHandlerModal.bind(this, data.item.id)} />
+          </View>
+          <View style={styles.btn1}>
+            <Button title="Ya lo compré" color="#00bcaa" />
+          </View>
         </View>
       </View>
-    </View>
+    </>
   );
+
+  const renderItem = (data) => <Item data={data} />;
+
   return (
     <>
-      <View>
-        <FlatList data={listItem} renderItem={renderItem} keyExtractor={(item) => item.id} scrollEnabled={true} />
-      </View>
+      <ScrollView>
+        <FlatList data={listItem} renderItem={renderItem} keyExtractor={(item, i) => i} />
+      </ScrollView>
     </>
   );
 }

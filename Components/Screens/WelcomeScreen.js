@@ -1,8 +1,21 @@
 import { Text, View, Button, ImageBackground, StyleSheet, Image, FlatList } from "react-native";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
+import { useDispatch, useSelector } from "react-redux";
+import { selectList } from "../store/actions/list.action";
 
 export default function WelcomeScreen({ navigation }) {
+  const datos = useSelector((state) => state.todas.listas);
+  const dispatch = useDispatch();
+
+  const handledSelectedList = (item) => {
+    console.log("<<<<<<<<<<< CLICK EN LISTA DE HOME >>>>>>>");
+    console.log("DATOS ID: " + +item.id);
+    console.log("DATOS TITLE: " + item.title);
+    dispatch(selectList(+item.id));
+    navigation.navigate("List", { id: +item.id, title: item.title });
+  };
+
   const [loaded] = useFonts({
     GrapeNuts: require("../../assets/fonts/GrapeNuts-Regular.ttf"),
   });
@@ -11,18 +24,13 @@ export default function WelcomeScreen({ navigation }) {
 
   const image = require("../../assets/img/wallpaper_patilla2.jpg");
 
-  let myLists = [
-    { id: 1, title: "Lista de Prueba 1" },
-    { id: 2, title: "Lista de Prueba 2" },
-    { id: 3, title: "Lista de Prueba 3" },
-  ];
-
-  const Item = ({ title }) => (
-    <Text style={styles.itemList} onPress={() => navigation.navigate("List")}>
-      {title}
+  const Item = ({ item }) => (
+    <Text style={styles.itemList} onPress={() => handledSelectedList(item)}>
+      {item.title}
     </Text>
   );
-  const renderItem = ({ item }) => <Item title={item.title} />;
+
+  const renderItem = ({ item }) => <Item item={item} />;
 
   return (
     <>
@@ -33,7 +41,7 @@ export default function WelcomeScreen({ navigation }) {
             <Button title="Nueva lista!" color="#F79D9D" onPress={() => navigation.navigate("List")} />
           </View>
           <View style={styles.containerListas}>
-            {!myLists.length ? (
+            {!datos.length ? (
               <>
                 <Text style={styles.creaTuLista}>TU LISTA DE HOY, TU COMPRA DE MAÑANA!</Text>
                 <Text style={styles.creaTuLista}> CREA TU LISTA DE DESEOS AHORA!</Text>
@@ -42,7 +50,7 @@ export default function WelcomeScreen({ navigation }) {
               <>
                 <Text style={styles.tituloLista}>Ultimas listas</Text>
                 <View style={styles.listGroup}>
-                  <FlatList data={myLists} renderItem={renderItem} keyExtractor={(item) => item.id} />
+                  <FlatList data={datos} renderItem={renderItem} keyExtractor={(item) => item.id} />
                 </View>
               </>
             )}
@@ -90,6 +98,12 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     fontSize: 17,
     width: "100%",
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: "white",
+    borderBottomEndRadius: 5,
+    borderBottomStartRadius: 5,
   },
   tituloLista: {
     color: "#65c4c9",
@@ -124,6 +138,8 @@ const styles = StyleSheet.create({
   },
   listGroup: {
     flex: 9,
+    width: "100%",
+    paddingHorizontal: 10,
   },
   signature: {
     color: "white",

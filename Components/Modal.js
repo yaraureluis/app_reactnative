@@ -1,4 +1,3 @@
-import react from "react";
 import { Text, View, Button, Modal, StyleSheet } from "react-native";
 
 export default function ModalItem(props) {
@@ -77,7 +76,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   botonModal: {
-    width: 100,
+    width: 110,
     flex: 2,
     marginHorizontal: 5,
     paddingBottom: 15,

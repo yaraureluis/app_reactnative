@@ -1,25 +1,29 @@
-import React, { useState } from "react";
-import { Text, View, Button, TextInput, StyleSheet, Image } from "react-native";
+import React from "react";
+import { Text, View, Button, StyleSheet, Image } from "react-native";
+import { useSelector } from "react-redux";
 
 export default function DetailItem() {
+  const selectListItem = useSelector((state) => state.lista.selected);
+
+  console.log("VISUALIZANDO DETALLE DEL ITEM: ", selectListItem.value);
   return (
     <>
       <View>
         <View style={styles.infoContainer}>
           <View style={styles.secondInfo}>
             <View>
-              <Text style={styles.textNormal}>NOMBRE DEL ITEM </Text>
+              <Text style={styles.textNormal}> {selectListItem.value} </Text>
 
-              <Text style={styles.locationText}>Default Store </Text>
+              <Text style={styles.locationText}>{selectListItem.lugar} </Text>
             </View>
-            <Text style={styles.price}>$1500</Text>
+            <Text style={styles.price}>$ {selectListItem.price}</Text>
           </View>
         </View>
         <View style={styles.imgContainer}>
           <Image
             style={styles.detailImg}
             source={{
-              uri: "https://http2.mlstatic.com/D_NQ_NP_723217-MLA47596576068_092021-O.jpg",
+              uri: selectListItem.foto,
             }}
           />
         </View>
@@ -63,9 +67,9 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
   },
   price: {
-    paddingLeft: 15,
+    paddingLeft: 12,
     paddingRight: 3,
-    fontSize: 45,
+    fontSize: 40,
     color: "white",
     textAlign: "center",
     fontWeight: "bold",

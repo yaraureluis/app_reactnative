@@ -1,13 +1,29 @@
-import React, { useState } from "react";
-import { Text, View, Button, TextInput, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Text, View, Button, TextInput, StyleSheet, ScrollView } from "react-native";
+import { useSelector } from "react-redux";
 import ListContainer from "./List/ListContainer";
 
 export default function AddItem({ navigation }) {
+  let lista = useSelector((state) => state.lista.filteredList);
+  let listaSeleccionada = useSelector((state) => state.todas.selected);
+
+  console.log("<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>");
+  console.log("LISTA SELECCIONADA: ", listaSeleccionada.list_items.length);
+  console.log("LISTA: ", lista);
+
   const [textItem, setTextItem] = useState();
   const [priceItem, setPriceItem] = useState();
   const [location, setLocation] = useState();
-  const [listItem, setListItem] = useState([]);
-  const [ItemCount, setItemCount] = useState(0);
+
+  // ########## SETEO INICIALMENTE LOS ITEMS DE LA LISTA CON EL CONTENIDO DE LA LISTA SELECCIONADA
+  // ########## SI NO EXISTE LISTA SELECCIONADA, VA COMO UN OBJETO VACÍO
+  let inicial;
+  listaSeleccionada = true ? (inicial = listaSeleccionada.list_items) : (inicial = {});
+  const [listItem, setListItem] = useState(inicial);
+
+  useEffect(() => {
+    setListItem(inicial);
+  }, [{ navigation }]);
 
   const onHandlerChangeItem = (texto) => {
     setTextItem(texto);
@@ -20,19 +36,23 @@ export default function AddItem({ navigation }) {
   };
 
   const addItem = () => {
-    let contador = ItemCount + 1;
+    let contador = listItem.length + 1;
     if (textItem != "" && priceItem != "") {
-      setListItem([...listItem, { id: contador, value: textItem, price: priceItem }]);
-      setItemCount(contador);
+      setListItem([...listItem, { id: contador, value: textItem, price: priceItem, lugar: location, foto: "https://s3-us-west-2.amazonaws.com/lasaga-blog/media/images/grupo_imagen.original.jpg" }]);
       setTextItem("");
       setPriceItem("");
       setLocation("");
+
+      console.log("ITEM AGREGADOO > LISTA: " + listItem);
     }
   };
 
+  useEffect(() => {
+    setListItem(listItem);
+  }, [listItem]);
   return (
     <>
-      <View>
+      <ScrollView showsVerticalScrollIndicator={false} stickyHeaderIndices={[0]}>
         <View style={styles.listado}>
           <Text style={styles.textNormal}>NUEVO ARTÍCULO</Text>
           <TextInput style={styles.textInputs} placeholder="Nombre" value={textItem} onChangeText={onHandlerChangeItem} />
@@ -48,7 +68,7 @@ export default function AddItem({ navigation }) {
           </View>
         </View>
         <ListContainer listItem={listItem} setListItem={setListItem} navigation={navigation} />
-      </View>
+      </ScrollView>
     </>
   );
 }
