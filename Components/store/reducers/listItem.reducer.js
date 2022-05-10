@@ -15,8 +15,10 @@ const ListItemReducer = (state = initialState, action) => {
 
       return { ...state, selected: action.data };
     case FILTERED_LIST_ITEM:
+      // NO LA ESTOY UTILIZANDO OJO ################
       console.log("FILTERED_LIST_ITEM " + action.listID);
       return { ...state, filteredList: state.listas.filter((lista) => lista.id == action.listID) };
+
     default:
       return state;
   }

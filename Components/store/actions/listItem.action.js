@@ -7,6 +7,7 @@ export const selectListItem = (data) => ({
   data: data,
 });
 
+// NO LA USO PARA NADA
 export const filteredList = (id) => ({
   type: FILTERED_LIST_ITEM,
   listID: id,

@@ -2,25 +2,29 @@ import React, { useEffect, useState } from "react";
 import { Text, View, Button, TextInput, StyleSheet, ScrollView } from "react-native";
 import { useSelector } from "react-redux";
 import ListContainer from "./List/ListContainer";
+import * as ImagePicker from "expo-image-picker";
+import * as Permission from "expo-permissions";
 
 export default function AddItem({ navigation }) {
-  let lista = useSelector((state) => state.lista.filteredList);
-  let listaSeleccionada = useSelector((state) => state.todas.selected);
+  let lista = useSelector((state) => state.lista.filteredList); //NO SE PARA QUE ES TODAVIA
+  let listaSeleccionada = useSelector((state) => state.todas.selected); //TRAE LA LISTA SELECCIONADA, SEA CON ITEMS O VACÍA SI ES NUEVA
 
-  console.log("<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>");
-  console.log("LISTA SELECCIONADA: ", listaSeleccionada.list_items.length);
-  console.log("LISTA: ", lista);
+  console.log("<<<<<<<<<<<<<<<<<<<ADD ITEM>>>>>>>>>>>>>>>>");
+  console.log("<<LISTA SELECCIONADA>>", listaSeleccionada);
+  console.log("LISTA: ", lista); //NO SE PARA QUE ES TODAVIA
 
+  // VALORES QUE SE INGRESAN EN EL INPUT, LUEGO DEBO CAMBIAR LOCATION
   const [textItem, setTextItem] = useState();
   const [priceItem, setPriceItem] = useState();
   const [location, setLocation] = useState();
 
   // ########## SETEO INICIALMENTE LOS ITEMS DE LA LISTA CON EL CONTENIDO DE LA LISTA SELECCIONADA
   // ########## SI NO EXISTE LISTA SELECCIONADA, VA COMO UN OBJETO VACÍO
-  let inicial;
-  listaSeleccionada = true ? (inicial = listaSeleccionada.list_items) : (inicial = {});
+  let inicial = listaSeleccionada.list_items;
+  listaSeleccionada.list_items != undefined ? (inicial = listaSeleccionada.list_items) : (inicial = []);
   const [listItem, setListItem] = useState(inicial);
 
+  // CADA VEZ QUE SALGO DE ESTE SCREEN, SETEO listItem a su valor inicial, por ahora no tengo persistencia
   useEffect(() => {
     setListItem(inicial);
   }, [{ navigation }]);
@@ -35,10 +39,42 @@ export default function AddItem({ navigation }) {
     setLocation(lugar);
   };
 
-  const addItem = () => {
-    let contador = listItem.length + 1;
+  // #############################################################################################
+  // ############################ LÓGICA PARA AGREGAR IMAGEN #####################################
+  const [pickerURI, setPickerURI] = useState();
+
+  const verifyPermissions = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    console.log(status);
+    if (status !== "granted") {
+      Alert.alert("Permisos Insuficientes", "La app necesita acceder a la cámara", [{ text: "Ok" }]);
+      return false;
+    }
+    return true;
+  };
+
+  const handlerTakeImage = async () => {
+    const isCameraOK = await verifyPermissions();
+    if (!isCameraOK) return;
+
+    const image = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [16, 9],
+      quality: 0.8,
+    });
+
+    setPickerURI(image.uri);
+  };
+  // ME FALTA LA LOGICA PARA GUARDAR LA IMAGEN, GUARDAR EL NUEVO ITEM EN LA LISTA, QUE TENGA PERSISTENCIA
+  // YA SEA EN EL MISMO TELEFONO (FILE SYSTEM) O EN FIREBASE
+  // #############################################################################################
+
+  const addItemList = () => {
+    console.log("LENGTH >>>", listItem);
+    let contador;
+    listItem.length === 0 ? (contador = listItem.length + 1) : (contador = 1);
     if (textItem != "" && priceItem != "") {
-      setListItem([...listItem, { id: contador, value: textItem, price: priceItem, lugar: location, foto: "https://s3-us-west-2.amazonaws.com/lasaga-blog/media/images/grupo_imagen.original.jpg" }]);
+      setListItem([...listItem, { id: contador, value: textItem, price: priceItem, lugar: location, foto: pickerURI }]);
       setTextItem("");
       setPriceItem("");
       setLocation("");
@@ -60,10 +96,10 @@ export default function AddItem({ navigation }) {
           <TextInput style={styles.textInputs} placeholder="Lugar" value={location} onChangeText={onHandlerChangeLocation} />
           <View style={styles.btnContainer}>
             <View style={styles.btn1}>
-              <Button title="Agregar foto" color="#F79D9D" />
+              <Button title="Agregar FOTO" color="#F79D9D" onPress={handlerTakeImage} />
             </View>
             <View style={styles.btn1}>
-              <Button title="Agregar ARTÍCULO" color="#F79D9D" onPress={addItem} />
+              <Button title="Agregar Artículo" color="#F79D9D" onPress={addItemList} />
             </View>
           </View>
         </View>

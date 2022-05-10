@@ -1,8 +1,9 @@
-import { Text, View, Button, ImageBackground, StyleSheet, Image, FlatList } from "react-native";
+import { Text, View, Button, ImageBackground, StyleSheet, Image, FlatList, TextInput } from "react-native";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import { useDispatch, useSelector } from "react-redux";
-import { selectList } from "../store/actions/list.action";
+import { selectList, createList } from "../store/actions/list.action";
+import React, { useEffect, useState } from "react";
 
 export default function WelcomeScreen({ navigation }) {
   const datos = useSelector((state) => state.todas.listas);
@@ -16,6 +17,26 @@ export default function WelcomeScreen({ navigation }) {
     navigation.navigate("List", { id: +item.id, title: item.title });
   };
 
+  // logica para la nueva lista #############################
+  const [listTitle, setListTitle] = useState();
+  const [showInputTitle, setShowInputTitle] = useState(false);
+  const onHandlerChangeListTitle = (texto) => {
+    setListTitle(texto);
+  };
+
+  const onHandlerListTitle = () => {
+    setShowInputTitle(true);
+  };
+  const handleCreteList = (new_title) => {
+    console.log(new_title);
+    const new_id = datos.length + 1;
+    const new_date = new Date().getDate();
+    const item = { id: new_id, date: new_date, title: new_title, list_items: [] };
+    dispatch(createList(item));
+    navigation.navigate("List", { id: +item.id, title: item.title });
+  };
+
+  // ###########################################################
   const [loaded] = useFonts({
     GrapeNuts: require("../../assets/fonts/GrapeNuts-Regular.ttf"),
   });
@@ -37,9 +58,18 @@ export default function WelcomeScreen({ navigation }) {
       <View style={styles.container}>
         <ImageBackground source={image} resizeMode="cover" style={styles.image}>
           <Text style={styles.brandText}>Wish List!</Text>
-          <View style={styles.btnNuevaLista}>
-            <Button title="Nueva lista!" color="#F79D9D" onPress={() => navigation.navigate("List")} />
-          </View>
+          {!showInputTitle ? (
+            <View style={styles.btnNuevaLista}>
+              <Button title="Nueva lista!" color="#F79D9D" onPress={() => onHandlerListTitle()} />
+            </View>
+          ) : (
+            <View style={styles.crearLista}>
+              <View style={styles.btnNuevaLista2}>
+                <TextInput style={styles.textInputs} placeholder="Nombre de la lista" value={listTitle} onChangeText={onHandlerChangeListTitle} />
+                <Button title="Crear Lista" color="#F79D9D" onPress={() => handleCreteList(listTitle)} />
+              </View>
+            </View>
+          )}
           <View style={styles.containerListas}>
             {!datos.length ? (
               <>
@@ -154,6 +184,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
   },
+  btnNuevaLista2: {
+    width: "70%",
+    justifyContent: "center",
+    flex: 1,
+  },
   containerListas: {
     width: "80%",
     backgroundColor: "#FFFFFFc0",
@@ -162,5 +197,22 @@ const styles = StyleSheet.create({
     flex: 2,
     marginBottom: 10,
     borderRadius: 5,
+  },
+  textInputs: {
+    backgroundColor: "white",
+    padding: 5,
+    marginTop: 15,
+    marginBottom: 5,
+    borderBottomWidth: 2,
+    borderBottomColor: "#F79D9D",
+    borderRadius: 5,
+    fontSize: 16,
+    textAlign: "center",
+  },
+  crearLista: {
+    width: "70%",
+    flexDirection: "row",
+    flex: 1,
+    marginBottom: 15,
   },
 });
