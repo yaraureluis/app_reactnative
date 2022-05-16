@@ -7,21 +7,23 @@ export default function ListItem(props) {
   const dispatch = useDispatch();
   const lista = useSelector((state) => state.lista.filteredList);
   const listaSeleccionada = useSelector((state) => state.todas.selected);
-  const { listItem, onHandlerModal, navigation } = props;
-
+  const { listItems, onHandlerModal, navigation } = props;
   useEffect(() => {
-    console.log("USE EFECT >>> id: " + listaSeleccionada.id);
+    console.log("USE EFECT >>> id: ", listaSeleccionada.id);
     dispatch(filteredList(listaSeleccionada.id));
   }, []);
 
   useEffect(() => {
-    // listItem = lista;
+    // listItems = lista;
   }, [lista]);
 
   const handleSelected = (data) => {
     dispatch(selectListItem(data, data.item_id));
-    console.log("ITEM SELECCIONADO PARA DETALLE: " + data.value);
-    console.log("DATA ENVIADA PARA DETALLE: " + data);
+    console.clear();
+    console.log("ITEM SELECCIONADO PARA DETALLE: ", data.value);
+    console.log("DATA ENVIADA PARA DETALLE: ", data);
+    console.log("DATA DEL LISTA SELECCIONADA", listaSeleccionada);
+    console.log("LISTA FILTRADA", lista);
     navigation.navigate("Detail", { data });
   };
 
@@ -49,9 +51,9 @@ export default function ListItem(props) {
 
   return (
     <>
-      <ScrollView>
-        <FlatList data={listItem} renderItem={renderItem} keyExtractor={(item, i) => i} />
-      </ScrollView>
+      {/* <ScrollView> */}
+      <FlatList data={listItems} renderItem={renderItem} keyExtractor={(item, i) => i} />
+      {/* </ScrollView> */}
     </>
   );
 }

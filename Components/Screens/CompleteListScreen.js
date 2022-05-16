@@ -6,6 +6,8 @@ export default function CompleteListScreen({ navigation }) {
   const datos = useSelector((state) => state.todas.listas);
   const dispatch = useDispatch();
 
+  console.log("DATOS EN PANTALLA DE LISTAS", datos);
+
   const handledSelectedList = (item) => {
     console.log("<<<<<<<<<<< click en lista de MIS LISTAS >>>>>>>");
     console.log("DATOS ID: " + +item.id);
@@ -25,7 +27,7 @@ export default function CompleteListScreen({ navigation }) {
   const renderItem = ({ item }) => <Item item={item} />;
   return (
     <>
-      <Text style={styles.tituloLista}>Selecciona una lista</Text>
+      <Text style={styles.tituloLista}>Todas mis listas</Text>
       <View style={styles.listGroup}>
         <FlatList data={datos} renderItem={renderItem} keyExtractor={(item) => item.id} />
       </View>

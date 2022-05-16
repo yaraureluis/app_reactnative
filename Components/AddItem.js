@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, Button, TextInput, StyleSheet, ScrollView } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ListContainer from "./List/ListContainer";
+import { addItemtoSelectedList } from "./store/actions/listItem.action";
 import * as ImagePicker from "expo-image-picker";
-import * as Permission from "expo-permissions";
+import * as Permission from "expo-permissions"; //REVISAR-----ATENCIÓN!!!!!!
 
 export default function AddItem({ navigation }) {
-  let lista = useSelector((state) => state.lista.filteredList); //NO SE PARA QUE ES TODAVIA
+  const dispatch = useDispatch();
+  let lista = useSelector((state) => state.lista.filteredList); // REVISAR-----ATENCIÓN!!!!!!
   let listaSeleccionada = useSelector((state) => state.todas.selected); //TRAE LA LISTA SELECCIONADA, SEA CON ITEMS O VACÍA SI ES NUEVA
-
-  console.log("<<<<<<<<<<<<<<<<<<<ADD ITEM>>>>>>>>>>>>>>>>");
-  console.log("<<LISTA SELECCIONADA>>", listaSeleccionada);
-  console.log("LISTA: ", lista); //NO SE PARA QUE ES TODAVIA
+  console.log("LISTA SELECCIONADA ADDITEM LINEA 13", listaSeleccionada);
 
   // VALORES QUE SE INGRESAN EN EL INPUT, LUEGO DEBO CAMBIAR LOCATION
   const [textItem, setTextItem] = useState();
@@ -20,13 +19,13 @@ export default function AddItem({ navigation }) {
 
   // ########## SETEO INICIALMENTE LOS ITEMS DE LA LISTA CON EL CONTENIDO DE LA LISTA SELECCIONADA
   // ########## SI NO EXISTE LISTA SELECCIONADA, VA COMO UN OBJETO VACÍO
-  let inicial = listaSeleccionada.list_items;
-  listaSeleccionada.list_items != undefined ? (inicial = listaSeleccionada.list_items) : (inicial = []);
-  const [listItem, setListItem] = useState(inicial);
+  let inicial = [];
+  if (listaSeleccionada.list_items != undefined) inicial = listaSeleccionada.list_items;
+  const [listItems, setListItems] = useState(inicial);
 
-  // CADA VEZ QUE SALGO DE ESTE SCREEN, SETEO listItem a su valor inicial, por ahora no tengo persistencia
+  // CADA VEZ QUE SALGO DE ESTE SCREEN, SETEO listItems a su valor inicial, por ahora no tengo persistencia
   useEffect(() => {
-    setListItem(inicial);
+    setListItems(inicial);
   }, [{ navigation }]);
 
   const onHandlerChangeItem = (texto) => {
@@ -43,7 +42,7 @@ export default function AddItem({ navigation }) {
   // ############################ LÓGICA PARA AGREGAR IMAGEN #####################################
   const [pickerURI, setPickerURI] = useState();
 
-  const verifyPermissions = async () => {
+  const verifyPermissionsCamera = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
     console.log(status);
     if (status !== "granted") {
@@ -54,7 +53,7 @@ export default function AddItem({ navigation }) {
   };
 
   const handlerTakeImage = async () => {
-    const isCameraOK = await verifyPermissions();
+    const isCameraOK = await verifyPermissionsCamera();
     if (!isCameraOK) return;
 
     const image = await ImagePicker.launchCameraAsync({
@@ -70,22 +69,24 @@ export default function AddItem({ navigation }) {
   // #############################################################################################
 
   const addItemList = () => {
-    console.log("LENGTH >>>", listItem);
+    console.log("LENGTH >>>", listItems.length);
     let contador;
-    listItem.length === 0 ? (contador = listItem.length + 1) : (contador = 1);
+    listItems.length == 0 ? (contador = listItems.length + 1) : (contador = 1);
     if (textItem != "" && priceItem != "") {
-      setListItem([...listItem, { id: contador, value: textItem, price: priceItem, lugar: location, foto: pickerURI }]);
+      setListItems([...listItems, { id: contador, value: textItem, price: priceItem, lugar: location, foto: pickerURI }]);
       setTextItem("");
       setPriceItem("");
       setLocation("");
+      // PASO LOS DATOS AL listItems.action para hacer push a la lista de ese nuevo articulo agregado
+      dispatch(addItemtoSelectedList(listaSeleccionada, { id: contador, value: textItem, price: priceItem, lugar: location, foto: pickerURI }));
 
-      console.log("ITEM AGREGADOO > LISTA: " + listItem);
+      console.log("ITEM AGREGADOO > LISTA: " + listItems);
     }
   };
 
   useEffect(() => {
-    setListItem(listItem);
-  }, [listItem]);
+    setListItems(listItems);
+  }, [listItems]);
   return (
     <>
       <ScrollView showsVerticalScrollIndicator={false} stickyHeaderIndices={[0]}>
@@ -103,7 +104,7 @@ export default function AddItem({ navigation }) {
             </View>
           </View>
         </View>
-        <ListContainer listItem={listItem} setListItem={setListItem} navigation={navigation} />
+        <ListContainer listItems={listItems} setListItems={setListItems} navigation={navigation} />
       </ScrollView>
     </>
   );

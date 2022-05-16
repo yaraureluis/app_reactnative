@@ -9,7 +9,7 @@ export const DATOS = [
         value: "Zapatilla Puma",
         price: 16500,
         lugar: "Abasto Shopping",
-        foto: "https://cdn.solodeportes.com.ar/media/catalog/product/cache/7c4f9b393f0b8cb75f2b74fe5e9e52aa/z/a/zapatillas-puma-rider-play-on-blanca-640010371149031-1.jpg",
+        foto: "file:///data/user/0/host.exp.exponent/files/ExperienceData/%2540anonymous%252Freactproject-e293fb7c-5ef8-4d54-9649-57c70e5c3732/a3d5b7e4-c8a0-4e7b-95aa-3560a91f1136.jpg",
       },
       {
         item_id: 2,

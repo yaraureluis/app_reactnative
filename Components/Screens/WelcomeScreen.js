@@ -1,4 +1,4 @@
-import { Text, View, Button, ImageBackground, StyleSheet, Image, FlatList, TextInput } from "react-native";
+import { Text, View, Button, ImageBackground, StyleSheet, Image, FlatList, TextInput, KeyboardAvoidingView } from "react-native";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,18 +8,16 @@ import React, { useEffect, useState } from "react";
 export default function WelcomeScreen({ navigation }) {
   const datos = useSelector((state) => state.todas.listas);
   const dispatch = useDispatch();
-
+  console.log("DATOS EN WELCOME SCREEN LINEA 11", datos);
   const handledSelectedList = (item) => {
-    console.log("<<<<<<<<<<< CLICK EN LISTA DE HOME >>>>>>>");
-    console.log("DATOS ID: " + +item.id);
-    console.log("DATOS TITLE: " + item.title);
     dispatch(selectList(+item.id));
     navigation.navigate("List", { id: +item.id, title: item.title });
   };
 
-  // logica para la nueva lista #############################
+  // Inicio logica para la nueva lista #############################
   const [listTitle, setListTitle] = useState();
   const [showInputTitle, setShowInputTitle] = useState(false);
+
   const onHandlerChangeListTitle = (texto) => {
     setListTitle(texto);
   };
@@ -28,15 +26,20 @@ export default function WelcomeScreen({ navigation }) {
     setShowInputTitle(true);
   };
   const handleCreteList = (new_title) => {
-    console.log(new_title);
-    const new_id = datos.length + 1;
-    const new_date = new Date().getDate();
-    const item = { id: new_id, date: new_date, title: new_title, list_items: [] };
+    if (!new_title) {
+      console.log("TITULO VACIO");
+      alert("Para crear una lista debe escribir un título");
+      return false;
+    }
+    console.log("NUEVO TITULO WelcomeScreen linea 37", new_title);
+    const new_date = new Date().toLocaleDateString();
+    const item = { date: new_date, title: new_title };
     dispatch(createList(item));
-    navigation.navigate("List", { id: +item.id, title: item.title });
+    navigation.navigate("List");
+    setListTitle("");
   };
 
-  // ###########################################################
+  // FIN logica nueva lista ###########################################################
   const [loaded] = useFonts({
     GrapeNuts: require("../../assets/fonts/GrapeNuts-Regular.ttf"),
   });
@@ -44,6 +47,7 @@ export default function WelcomeScreen({ navigation }) {
   if (!loaded) return <AppLoading />;
 
   const image = require("../../assets/img/wallpaper_patilla2.jpg");
+  const logo = require("../../assets/img/logo_patilla.png");
 
   const Item = ({ item }) => (
     <Text style={styles.itemList} onPress={() => handledSelectedList(item)}>
@@ -56,37 +60,40 @@ export default function WelcomeScreen({ navigation }) {
   return (
     <>
       <View style={styles.container}>
-        <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-          <Text style={styles.brandText}>Wish List!</Text>
-          {!showInputTitle ? (
-            <View style={styles.btnNuevaLista}>
-              <Button title="Nueva lista!" color="#F79D9D" onPress={() => onHandlerListTitle()} />
-            </View>
-          ) : (
-            <View style={styles.crearLista}>
-              <View style={styles.btnNuevaLista2}>
-                <TextInput style={styles.textInputs} placeholder="Nombre de la lista" value={listTitle} onChangeText={onHandlerChangeListTitle} />
-                <Button title="Crear Lista" color="#F79D9D" onPress={() => handleCreteList(listTitle)} />
+        <KeyboardAvoidingView style={styles.containerK} behavior={"height"}>
+          <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+            <Image style={styles.logo} source={logo} />
+            <Text style={styles.brandText}>Wish List!</Text>
+            {!showInputTitle ? (
+              <View style={styles.btnNuevaLista}>
+                <Button title="Nueva lista!" color="#F79D9D" onPress={() => onHandlerListTitle()} />
               </View>
-            </View>
-          )}
-          <View style={styles.containerListas}>
-            {!datos.length ? (
-              <>
-                <Text style={styles.creaTuLista}>TU LISTA DE HOY, TU COMPRA DE MAÑANA!</Text>
-                <Text style={styles.creaTuLista}> CREA TU LISTA DE DESEOS AHORA!</Text>
-              </>
             ) : (
-              <>
-                <Text style={styles.tituloLista}>Ultimas listas</Text>
-                <View style={styles.listGroup}>
-                  <FlatList data={datos} renderItem={renderItem} keyExtractor={(item) => item.id} />
+              <View style={styles.crearLista}>
+                <View style={styles.btnNuevaLista2}>
+                  <TextInput style={styles.textInputs} placeholder="Nombre de la lista" value={listTitle} onChangeText={onHandlerChangeListTitle} />
+                  <Button title="Crear Lista" color="#F79D9D" onPress={() => handleCreteList(listTitle)} />
                 </View>
-              </>
+              </View>
             )}
-          </View>
-          <Text style={styles.signature}>Powered by Luis Alexander</Text>
-        </ImageBackground>
+            <View style={styles.containerListas}>
+              {!datos.length ? (
+                <>
+                  <Text style={styles.creaTuLista}>TU LISTA DE HOY, TU COMPRA DE MAÑANA!</Text>
+                  <Text style={styles.creaTuLista}> CREA TU LISTA DE DESEOS AHORA!</Text>
+                </>
+              ) : (
+                <>
+                  <Text style={styles.tituloLista}>Ultimas listas</Text>
+                  <View style={styles.listGroup}>
+                    <FlatList data={datos} renderItem={renderItem} keyExtractor={(item) => item.id} />
+                  </View>
+                </>
+              )}
+            </View>
+            <Text style={styles.signature}>Powered by Luis Alexander</Text>
+          </ImageBackground>
+        </KeyboardAvoidingView>
       </View>
     </>
   );
@@ -96,10 +103,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  containerK: {
+    flex: 1,
+  },
   image: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    width: "100%",
+    height: "100%",
+  },
+  logo: {
+    flex: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    maxWidth: "75%",
+    resizeMode: "contain",
   },
   brandText: {
     color: "white",
@@ -108,8 +130,7 @@ const styles = StyleSheet.create({
     fontFamily: "GrapeNuts",
     textAlign: "center",
     backgroundColor: "#000000c0",
-    flex: 1,
-    marginTop: 250,
+
     width: "100%",
   },
   subText: {
@@ -197,6 +218,7 @@ const styles = StyleSheet.create({
     flex: 2,
     marginBottom: 10,
     borderRadius: 5,
+    marginTop: 5,
   },
   textInputs: {
     backgroundColor: "white",
