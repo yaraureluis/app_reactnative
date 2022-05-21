@@ -2,13 +2,17 @@ import { Text, View, Button, ImageBackground, StyleSheet, Image, FlatList, TextI
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import { useDispatch, useSelector } from "react-redux";
-import { selectList, createList } from "../store/actions/list.action";
+import { selectList, createList, setAllLists } from "../store/actions/list.action";
 import React, { useEffect, useState } from "react";
 
 export default function WelcomeScreen({ navigation }) {
   const datos = useSelector((state) => state.todas.listas);
   const dispatch = useDispatch();
   console.log("DATOS EN WELCOME SCREEN LINEA 11", datos);
+
+  useEffect(() => {
+    dispatch(setAllLists());
+  }, []);
   const handledSelectedList = (item) => {
     dispatch(selectList(+item.id));
     navigation.navigate("List", { id: +item.id, title: item.title });
@@ -35,8 +39,9 @@ export default function WelcomeScreen({ navigation }) {
     const new_date = new Date().toLocaleDateString();
     const item = { date: new_date, title: new_title };
     dispatch(createList(item));
-    navigation.navigate("List");
+    // navigation.navigate("List");
     setListTitle("");
+    setShowInputTitle(false);
   };
 
   // FIN logica nueva lista ###########################################################
@@ -84,7 +89,7 @@ export default function WelcomeScreen({ navigation }) {
                 </>
               ) : (
                 <>
-                  <Text style={styles.tituloLista}>Ultimas listas</Text>
+                  <Text style={styles.tituloLista}>Ultimas listas creadas</Text>
                   <View style={styles.listGroup}>
                     <FlatList data={datos} renderItem={renderItem} keyExtractor={(item) => item.id} />
                   </View>

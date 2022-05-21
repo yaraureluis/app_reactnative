@@ -89,23 +89,21 @@ export default function AddItem({ navigation }) {
   }, [listItems]);
   return (
     <>
-      <ScrollView showsVerticalScrollIndicator={false} stickyHeaderIndices={[0]}>
-        <View style={styles.listado}>
-          <Text style={styles.textNormal}>NUEVO ARTÍCULO</Text>
-          <TextInput style={styles.textInputs} placeholder="Nombre" value={textItem} onChangeText={onHandlerChangeItem} />
-          <TextInput style={styles.textInputs} placeholder="Precio" value={priceItem} onChangeText={onHandlerChangePrice} />
-          <TextInput style={styles.textInputs} placeholder="Lugar" value={location} onChangeText={onHandlerChangeLocation} />
-          <View style={styles.btnContainer}>
-            <View style={styles.btn1}>
-              <Button title="Agregar FOTO" color="#F79D9D" onPress={handlerTakeImage} />
-            </View>
-            <View style={styles.btn1}>
-              <Button title="Agregar Artículo" color="#F79D9D" onPress={addItemList} />
-            </View>
+      <View style={styles.listado}>
+        <Text style={styles.textNormal}>NUEVO ARTÍCULO</Text>
+        <TextInput style={styles.textInputs} placeholder="Nombre" value={textItem} onChangeText={onHandlerChangeItem} />
+        <TextInput style={styles.textInputs} placeholder="Precio" value={priceItem} onChangeText={onHandlerChangePrice} />
+        <TextInput style={styles.textInputs} placeholder="Lugar" value={location} onChangeText={onHandlerChangeLocation} />
+        <View style={styles.btnContainer}>
+          <View style={styles.btn1}>
+            <Button title="Agregar FOTO" color="#F79D9D" onPress={handlerTakeImage} />
+          </View>
+          <View style={styles.btn1}>
+            <Button title="Agregar Artículo" color="#F79D9D" onPress={addItemList} />
           </View>
         </View>
-        <ListContainer listItems={listItems} setListItems={setListItems} navigation={navigation} />
-      </ScrollView>
+      </View>
+      <ListContainer listItems={listItems} setListItems={setListItems} navigation={navigation} />
     </>
   );
 }

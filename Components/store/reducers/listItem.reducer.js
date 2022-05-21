@@ -13,7 +13,7 @@ const listas_de_db = async () => {
 };
 
 const initialState = {
-  listas: listas_de_db(),
+  listas: [], //listas_de_db(),
   filteredList: [],
   selected: null,
 };

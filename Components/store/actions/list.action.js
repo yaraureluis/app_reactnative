@@ -1,7 +1,19 @@
-import { insertNewList } from "../../../db";
+import { insertNewList, SelectListas } from "../../../db";
 export const SELECT_LIST = "SELECT_LIST";
 export const CREATE_LIST = "CREATE_LIST";
+export const SET_ALL_LISTS = "SET_ALL_LISTS";
 
+export const setAllLists = () => {
+  return async (dispatch) => {
+    try {
+      const result = await SelectListas();
+      console.log(result);
+      dispatch({ type: SET_ALL_LISTS, listas: result.rows._array });
+    } catch (err) {
+      throw err;
+    }
+  };
+};
 export const selectList = (id) => ({
   type: SELECT_LIST,
   listID: id,

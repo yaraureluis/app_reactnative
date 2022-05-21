@@ -1,23 +1,15 @@
 import { DATOS } from "../../../data/dataList";
-import { SELECT_LIST, CREATE_LIST } from "../actions/list.action";
-import { SelectListas } from "../../../db";
+import { SELECT_LIST, CREATE_LIST, SET_ALL_LISTS } from "../actions/list.action";
 
-const listas_de_db = async () => {
-  try {
-    const result = await SelectListas();
-    console.log("RESULTADO list.reducer linea 8", result);
-    return result;
-  } catch (err) {
-    console.log("ERROR EN LIST.REDUCER LINEA 8", err);
-  }
-};
 const initialState = {
-  listas: listas_de_db(),
+  listas: [],
   selected: null,
 };
 
 const ListReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_ALL_LISTS:
+      return { ...state, listas: action.listas };
     case SELECT_LIST:
       console.log("<<<<<<<<<< ENTRO AL CASO 1 >>>>>>>>>>>");
       console.log("DATOS LENGTH: ", state.listas.length);
@@ -33,7 +25,6 @@ const ListReducer = (state = initialState, action) => {
       console.log("<<<ENTRÓ AL CASO DE NUEVA LISTA>>>>>>>>");
       console.log("ACTION DATA EN LIST.REDUCER LINEA 24", action.data);
       console.log("EJEMPLO", [...state.listas, action.data]);
-
       return { ...state, selected: action.data, listas: state.listas.concat(action.data) };
 
     default:

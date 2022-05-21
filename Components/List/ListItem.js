@@ -28,32 +28,28 @@ export default function ListItem(props) {
   };
 
   const Item = ({ data }) => (
-    <>
-      <View style={styles.containerLista}>
-        <View>
-          <Text style={styles.textLista} onPress={() => handleSelected(data.item)}>
-            {data.index + 1}. {data.item.value} - ${data.item.price}
-          </Text>
+    <View style={styles.containerLista}>
+      <View>
+        <Text style={styles.textLista} onPress={() => handleSelected(data.item)}>
+          {data.index + 1}. {data.item.value} - ${data.item.price}
+        </Text>
+      </View>
+      <View style={styles.btnContainer}>
+        <View style={styles.btn1}>
+          <Button title="Eliminar" color="#65c4c9" onPress={onHandlerModal.bind(this, data.item.id)} />
         </View>
-        <View style={styles.btnContainer}>
-          <View style={styles.btn1}>
-            <Button title="Eliminar" color="#65c4c9" onPress={onHandlerModal.bind(this, data.item.id)} />
-          </View>
-          <View style={styles.btn1}>
-            <Button title="Ya lo compré" color="#00bcaa" />
-          </View>
+        <View style={styles.btn1}>
+          <Button title="Ya lo compré" color="#00bcaa" />
         </View>
       </View>
-    </>
+    </View>
   );
 
   const renderItem = (data) => <Item data={data} />;
 
   return (
     <>
-      {/* <ScrollView> */}
       <FlatList data={listItems} renderItem={renderItem} keyExtractor={(item, i) => i} />
-      {/* </ScrollView> */}
     </>
   );
 }
