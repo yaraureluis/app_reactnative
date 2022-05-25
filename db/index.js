@@ -68,7 +68,7 @@ export const init_items = () => {
   const promise = new Promise((resolve, reject) => {
     db_items.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY NOT NULL, title TEXT NOT NULL, price REAL NOT NULL, image TEXT NOT NULL, address TEXT NOT NULL, lat REAL NOT NULL, lng REAL NOT NULL );",
+        "CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY NOT NULL, title TEXT NOT NULL, price REAL NOT NULL, image TEXT NOT NULL, address TEXT NOT NULL, lat REAL NOT NULL, lng REAL NOT NULL, id_rel REAL NOT NULL );",
         [],
         () => resolve(),
         (_, err) => reject(err)
@@ -79,12 +79,14 @@ export const init_items = () => {
   return promise;
 };
 
-export const insertNewItem = (title, price, image, address, lat, lng) => {
+export const insertNewItem = (title, price, image, address, lat, lng, id_rel) => {
   const promise = new Promise((resolve, reject) => {
     db_items.transaction((tx) => {
+      console.log("Agregado un item llamado: ", title);
+
       tx.executeSql(
-        "INSERT INTO items (title, price, image, address, lat, lng) values (?, ?, ?, ?, ?, ?);",
-        [date, title],
+        "INSERT INTO items (title, price, image, address, lat, lng, id_rel) values (?, ?, ?, ?, ?, ?, ?);",
+        [title, price, image, address, lat, lng, id_rel],
         (_, result) => resolve(result),
         (_, err) => reject(err)
       );
@@ -94,12 +96,12 @@ export const insertNewItem = (title, price, image, address, lat, lng) => {
   return promise;
 };
 
-export const SelectItems = () => {
+export const SelectItemsByIdRel = (id_rel) => {
   const promise = new Promise((resolve, reject) => {
     db_items.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM items;",
-        [],
+        "SELECT * FROM items WHERE id_rel = ?;",
+        [id_rel],
         (_, result) => resolve(result),
         (_, err) => reject(err)
       );
@@ -108,7 +110,21 @@ export const SelectItems = () => {
   return promise;
 };
 
-export const deleteItem = (id) => {
+export const SelectItemsById = (id) => {
+  const promise = new Promise((resolve, reject) => {
+    db_items.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM items WHERE id = ?;",
+        [id],
+        (_, result) => resolve(result),
+        (_, err) => reject(err)
+      );
+    });
+  });
+  return promise;
+};
+
+export const deleteItemById = (id) => {
   const promise = new Promise((resolve, reject) => {
     db_items.transaction((tx) => {
       console.log("Borrado un item con id: ", id);

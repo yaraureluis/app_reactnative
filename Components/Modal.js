@@ -1,7 +1,7 @@
 import { Text, View, Button, Modal, StyleSheet } from "react-native";
 
 export default function ModalItem(props) {
-  const { visible, onDelete, item, onCancel } = props;
+  const { visible, onDelete, item, onCancel, navigation } = props;
 
   return (
     <Modal animationType="slide" visible={visible}>

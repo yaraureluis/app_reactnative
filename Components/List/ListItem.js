@@ -5,7 +5,7 @@ import { filteredList, selectListItem } from "../store/actions/listItem.action";
 
 export default function ListItem(props) {
   const dispatch = useDispatch();
-  const lista = useSelector((state) => state.lista.filteredList);
+  const deseos_seleccionados = useSelector((state) => state.lista.deseos_seleccionados);
   const listaSeleccionada = useSelector((state) => state.todas.selected);
   const { listItems, onHandlerModal, navigation } = props;
   useEffect(() => {
@@ -15,15 +15,15 @@ export default function ListItem(props) {
 
   useEffect(() => {
     // listItems = lista;
-  }, [lista]);
+  }, [deseos_seleccionados]);
 
   const handleSelected = (data) => {
-    dispatch(selectListItem(data, data.item_id));
+    dispatch(selectListItem(data.id));
     console.clear();
-    console.log("ITEM SELECCIONADO PARA DETALLE: ", data.value);
+    console.log("ITEM SELECCIONADO PARA DETALLE: ", data.title);
     console.log("DATA ENVIADA PARA DETALLE: ", data);
-    console.log("DATA DEL LISTA SELECCIONADA", listaSeleccionada);
-    console.log("LISTA FILTRADA", lista);
+    console.log("LISTA GENERAL", listaSeleccionada);
+    console.log("DESEOS SELECCIONADOS", deseos_seleccionados);
     navigation.navigate("Detail", { data });
   };
 
@@ -31,15 +31,12 @@ export default function ListItem(props) {
     <View style={styles.containerLista}>
       <View>
         <Text style={styles.textLista} onPress={() => handleSelected(data.item)}>
-          {data.index + 1}. {data.item.value} - ${data.item.price}
+          {data.index + 1}. {data.item.title} - ${data.item.price}
         </Text>
       </View>
       <View style={styles.btnContainer}>
         <View style={styles.btn1}>
           <Button title="Eliminar" color="#65c4c9" onPress={onHandlerModal.bind(this, data.item.id)} />
-        </View>
-        <View style={styles.btn1}>
-          <Button title="Ya lo compré" color="#00bcaa" />
         </View>
       </View>
     </View>

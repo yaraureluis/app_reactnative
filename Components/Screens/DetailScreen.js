@@ -1,9 +1,9 @@
 import DetailItem from "../DetailItem";
 
-export default function DetailScreen() {
+export default function DetailScreen({ navigation }) {
   return (
     <>
-      <DetailItem />
+      <DetailItem navigation={navigation} />
     </>
   );
 }

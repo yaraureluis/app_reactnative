@@ -1,6 +1,7 @@
 import { Text, View, Button, ImageBackground, StyleSheet, Image, FlatList } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { selectList } from "../store/actions/list.action";
+import { filteredList } from "../store/actions/listItem.action";
 
 export default function CompleteListScreen({ navigation }) {
   const datos = useSelector((state) => state.todas.listas);
@@ -13,6 +14,8 @@ export default function CompleteListScreen({ navigation }) {
     console.log("DATOS ID: " + +item.id);
     console.log("DATOS TITLE: " + item.title);
     dispatch(selectList(+item.id));
+    dispatch(filteredList(+item.id));
+
     navigation.navigate("List", { id: +item.id, title: item.title });
   };
 

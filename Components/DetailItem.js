@@ -1,49 +1,75 @@
-import React from "react";
-import { Text, View, Button, StyleSheet, Image } from "react-native";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { Text, View, Button, StyleSheet, Image, ScrollView } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import MapPreview from "./MapPreview";
+import ModalItem from "./Modal";
+import { selectListItem, deleteItem } from "./store/actions/listItem.action";
 
-export default function DetailItem() {
-  const selectListItem = useSelector((state) => state.lista.selected);
+export default function DetailItem({ navigation }) {
+  const dispatch = useDispatch();
 
-  console.log("VISUALIZANDO DETALLE DEL ITEM: ", selectListItem.value);
+  const data = useSelector((state) => state.lista.selected);
+  const selectListItem = data;
+  // const selectListItem = data;
+
+  console.log("VISUALIZANDO DETALLE DEL ITEM: ", selectListItem.title);
+  const [itemSelected, setItemSelected] = useState({});
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const onHandlerModal = (id) => {
+    setItemSelected(selectListItem.id);
+    setModalVisible(!modalVisible);
+  };
+  const closeModal = () => {
+    setModalVisible(!modalVisible);
+  };
+
+  const onHandlerDelete = (id) => {
+    console.log("Item Eliminado - LISTCONTAINER.JS LINEA 15");
+    dispatch(deleteItem(id));
+    setItemSelected({});
+    setModalVisible(!modalVisible);
+    navigation.navigate("List");
+  };
   return (
     <>
-      <View>
-        <View style={styles.infoContainer}>
-          <View style={styles.secondInfo}>
-            <View>
-              <Text style={styles.textNormal}> {selectListItem.value} </Text>
+      <ScrollView>
+        <View>
+          <View style={styles.infoContainer}>
+            <View style={styles.secondInfo}>
+              <View>
+                <Text style={styles.textNormal}> {selectListItem.title} </Text>
 
-              <Text style={styles.locationText}>{selectListItem.lugar} </Text>
+                <Text style={styles.locationText}>{selectListItem.address} </Text>
+              </View>
+              <Text style={styles.price}>$ {selectListItem.price}</Text>
             </View>
-            <Text style={styles.price}>$ {selectListItem.price}</Text>
           </View>
-        </View>
-        <View style={styles.imgContainer}>
-          <Image
-            style={styles.detailImg}
-            source={{
-              uri: selectListItem.foto,
-            }}
-          />
-        </View>
-        <View style={styles.locationContainer}>
-          <Image
+          <View style={styles.imgContainer}>
+            <Image
+              style={styles.detailImg}
+              source={{
+                uri: selectListItem.image,
+              }}
+            />
+          </View>
+          <View style={styles.locationContainer}>
+            <MapPreview style={styles.mapa} location={{ lat: selectListItem.lat, lng: selectListItem.lng }} />
+            {/* <Image
             style={styles.mapa}
             source={{
               uri: "https://i0.wp.com/www.cssscript.com/wp-content/uploads/2018/03/Simple-Location-Picker.png?fit=561%2C421&ssl=1",
             }}
-          />
-        </View>
-        <View style={styles.btnContainer}>
-          <View style={styles.btn1}>
-            <Button title="Eliminar" color="#65c4c9" />
+          /> */}
           </View>
-          <View style={styles.btn1}>
-            <Button title="Ya lo compré" color="#00bcaa" />
+          <View style={styles.btnContainer}>
+            <View style={styles.btn1}>
+              <Button title="Eliminar deseo" color="#65c4c9" onPress={onHandlerModal.bind(this, selectListItem.id)} />
+            </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
+      <ModalItem onDelete={onHandlerDelete} item={selectListItem} visible={modalVisible} onCancel={closeModal} />
     </>
   );
 }
@@ -62,7 +88,7 @@ const styles = StyleSheet.create({
   textNormal: {
     fontWeight: "bold",
     color: "white",
-    fontSize: 20,
+    fontSize: 22,
     textAlign: "right",
     textAlignVertical: "center",
   },
@@ -78,7 +104,9 @@ const styles = StyleSheet.create({
   },
   locationText: {
     textAlignVertical: "center",
-    fontSize: 18,
+    fontSize: 12,
+    width: 200,
+    marginEnd: 4,
     color: "white",
     textAlign: "center",
     textAlign: "right",
@@ -90,7 +118,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   btn1: {
-    width: 150,
+    width: "90%",
     marginHorizontal: 5,
   },
   detailImg: {

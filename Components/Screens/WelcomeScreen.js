@@ -3,6 +3,7 @@ import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import { useDispatch, useSelector } from "react-redux";
 import { selectList, createList, setAllLists } from "../store/actions/list.action";
+import { filteredList } from "../store/actions/listItem.action";
 import React, { useEffect, useState } from "react";
 
 export default function WelcomeScreen({ navigation }) {
@@ -13,8 +14,10 @@ export default function WelcomeScreen({ navigation }) {
   useEffect(() => {
     dispatch(setAllLists());
   }, []);
+
   const handledSelectedList = (item) => {
     dispatch(selectList(+item.id));
+    dispatch(filteredList(+item.id));
     navigation.navigate("List", { id: +item.id, title: item.title });
   };
 
@@ -39,7 +42,6 @@ export default function WelcomeScreen({ navigation }) {
     const new_date = new Date().toLocaleDateString();
     const item = { date: new_date, title: new_title };
     dispatch(createList(item));
-    // navigation.navigate("List");
     setListTitle("");
     setShowInputTitle(false);
   };
