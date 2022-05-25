@@ -1,4 +1,3 @@
-import { DATOS } from "../../../data/dataList";
 import { SELECT_LIST, CREATE_LIST, SET_ALL_LISTS } from "../actions/list.action";
 
 const initialState = {
