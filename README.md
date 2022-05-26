@@ -10,13 +10,13 @@ Para inicializar la app debes utilzar el comando expo start
 
 ## SCREENSHOTS DE LA APP
 
-<img src="https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp1a.jpg?raw=true" height="700">
+<img src="https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp1a.jpeg?raw=true" height="700">
 
-<img src="https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp2a.jpg?raw=true" height="700">
+<img src="https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp2a.jpeg?raw=true" height="700">
 
-<img src="https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp3a.jpg?raw=true" height="700">
+<img src="https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp3a.jpeg?raw=true" height="700">
 
-<img src="https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp4a.jpg?raw=true" height="700">
+<img src="https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp4a.jpeg?raw=true" height="700">
 
 ## Autor
 
