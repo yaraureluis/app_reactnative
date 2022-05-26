@@ -1,10 +1,10 @@
-import { Text, View, Button, ImageBackground, StyleSheet, Image, FlatList } from "react-native";
+import { Text, View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { selectList } from "../store/actions/list.action";
 import { filteredList } from "../store/actions/listItem.action";
 
 export default function CompleteListScreen({ navigation }) {
-  const datos = useSelector((state) => state.todas.listas);
+  const datos = useSelector((state) => state.allMyLists.fullLists);
   const dispatch = useDispatch();
 
   console.log("DATOS EN PANTALLA DE LISTAS", datos);
@@ -20,12 +20,10 @@ export default function CompleteListScreen({ navigation }) {
   };
 
   const Item = ({ item }) => (
-    <View style={styles.containerListItem}>
-      <Text style={styles.itemList} onPress={() => handledSelectedList(item)}>
-        {item.title}
-      </Text>
+    <TouchableOpacity style={styles.containerListItem} onPress={() => handledSelectedList(item)}>
+      <Text style={styles.itemList}>{item.title}</Text>
       <Text style={styles.itemDate}>{item.date}</Text>
-    </View>
+    </TouchableOpacity>
   );
   const renderItem = ({ item }) => <Item item={item} />;
   return (

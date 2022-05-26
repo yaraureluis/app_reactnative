@@ -1,4 +1,4 @@
-import { Text, View, Button, ImageBackground, StyleSheet, Image, FlatList, TextInput, KeyboardAvoidingView } from "react-native";
+import { Text, View, Button, ImageBackground, StyleSheet, Image, FlatList, TextInput, KeyboardAvoidingView, TouchableOpacity } from "react-native";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,9 +7,10 @@ import { filteredList } from "../store/actions/listItem.action";
 import React, { useEffect, useState } from "react";
 
 export default function WelcomeScreen({ navigation }) {
-  const datos = useSelector((state) => state.todas.listas);
+  const myLists = useSelector((state) => state.allMyLists.fullLists);
+  const lastLists = myLists.slice(-4);
   const dispatch = useDispatch();
-  console.log("DATOS EN WELCOME SCREEN LINEA 11", datos);
+  console.log("DATOS EN WELCOME SCREEN LINEA 11", lastLists);
 
   useEffect(() => {
     dispatch(setAllLists());
@@ -21,12 +22,12 @@ export default function WelcomeScreen({ navigation }) {
     navigation.navigate("List", { id: +item.id, title: item.title });
   };
 
-  // Inicio logica para la nueva lista #############################
+  // ----------------------INICIO LOGICA NUEVA LISTA ------------------------/
   const [listTitle, setListTitle] = useState();
   const [showInputTitle, setShowInputTitle] = useState(false);
 
-  const onHandlerChangeListTitle = (texto) => {
-    setListTitle(texto);
+  const onHandlerChangeListTitle = (text) => {
+    setListTitle(text);
   };
 
   const onHandlerListTitle = () => {
@@ -46,7 +47,7 @@ export default function WelcomeScreen({ navigation }) {
     setShowInputTitle(false);
   };
 
-  // FIN logica nueva lista ###########################################################
+  // ------------------------ FIN LOGICA NUEVA LISTA ------------------------ /
   const [loaded] = useFonts({
     GrapeNuts: require("../../assets/fonts/GrapeNuts-Regular.ttf"),
   });
@@ -57,9 +58,9 @@ export default function WelcomeScreen({ navigation }) {
   const logo = require("../../assets/img/logo_patilla.png");
 
   const Item = ({ item }) => (
-    <Text style={styles.itemList} onPress={() => handledSelectedList(item)}>
-      {item.title}
-    </Text>
+    <TouchableOpacity onPress={() => handledSelectedList(item)}>
+      <Text style={styles.itemList}>{item.title}</Text>
+    </TouchableOpacity>
   );
 
   const renderItem = ({ item }) => <Item item={item} />;
@@ -67,33 +68,33 @@ export default function WelcomeScreen({ navigation }) {
   return (
     <>
       <View style={styles.container}>
-        <KeyboardAvoidingView style={styles.containerK} behavior={"height"}>
+        <KeyboardAvoidingView style={styles.containerKeyboardAvoidingView} behavior={"height"}>
           <ImageBackground source={image} resizeMode="cover" style={styles.image}>
             <Image style={styles.logo} source={logo} />
             <Text style={styles.brandText}>Wish List!</Text>
             {!showInputTitle ? (
-              <View style={styles.btnNuevaLista}>
+              <View style={styles.btnNewList}>
                 <Button title="Nueva lista!" color="#F79D9D" onPress={() => onHandlerListTitle()} />
               </View>
             ) : (
-              <View style={styles.crearLista}>
-                <View style={styles.btnNuevaLista2}>
+              <View style={styles.createList}>
+                <View style={styles.btnNewList2}>
                   <TextInput style={styles.textInputs} placeholder="Nombre de la lista" value={listTitle} onChangeText={onHandlerChangeListTitle} />
                   <Button title="Crear Lista" color="#F79D9D" onPress={() => handleCreteList(listTitle)} />
                 </View>
               </View>
             )}
-            <View style={styles.containerListas}>
-              {!datos.length ? (
+            <View style={styles.listsContainer}>
+              {!lastLists.length ? (
                 <>
-                  <Text style={styles.creaTuLista}>TU LISTA DE HOY, TU COMPRA DE MAÑANA!</Text>
-                  <Text style={styles.creaTuLista}> CREA TU LISTA DE DESEOS AHORA!</Text>
+                  <Text style={styles.createNewListText}>TU LISTA DE HOY, TU COMPRA DE MAÑANA!</Text>
+                  <Text style={styles.createNewListText}> CREA TU LISTA DE DESEOS AHORA!</Text>
                 </>
               ) : (
                 <>
-                  <Text style={styles.tituloLista}>Ultimas listas creadas</Text>
+                  <Text style={styles.myLastListsTitle}>Ultimas listas creadas</Text>
                   <View style={styles.listGroup}>
-                    <FlatList data={datos} renderItem={renderItem} keyExtractor={(item) => item.id} />
+                    <FlatList data={lastLists} renderItem={renderItem} keyExtractor={(item) => item.id} />
                   </View>
                 </>
               )}
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  containerK: {
+  containerKeyboardAvoidingView: {
     flex: 1,
   },
   image: {
@@ -163,7 +164,7 @@ const styles = StyleSheet.create({
     borderBottomEndRadius: 5,
     borderBottomStartRadius: 5,
   },
-  tituloLista: {
+  myLastListsTitle: {
     color: "#65c4c9",
     fontSize: 22,
     lineHeight: 22,
@@ -180,7 +181,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     textAlignVertical: "center",
   },
-  creaTuLista: {
+  createNewListText: {
     color: "#65c4c9",
     fontSize: 22,
     lineHeight: 22,
@@ -207,17 +208,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginVertical: 10,
   },
-  btnNuevaLista: {
+  btnNewList: {
     width: "70%",
     justifyContent: "center",
     flex: 1,
   },
-  btnNuevaLista2: {
+  btnNewList2: {
     width: "70%",
     justifyContent: "center",
     flex: 1,
   },
-  containerListas: {
+  listsContainer: {
     width: "80%",
     backgroundColor: "#FFFFFFc0",
     alignItems: "center",
@@ -238,7 +239,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
   },
-  crearLista: {
+  createList: {
     width: "70%",
     flexDirection: "row",
     flex: 1,

@@ -8,7 +8,7 @@ export const setAllLists = () => {
     try {
       const result = await SelectListas();
       console.log(result);
-      dispatch({ type: SET_ALL_LISTS, listas: result.rows._array });
+      dispatch({ type: SET_ALL_LISTS, listsDB: result.rows._array });
     } catch (err) {
       throw err;
     }

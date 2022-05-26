@@ -4,8 +4,8 @@ import ListItemReducer from "./reducers/listItem.reducer";
 import thunk from "redux-thunk";
 
 const RootReducer = {
-  todas: ListReducer,
-  lista: ListItemReducer,
+  allMyLists: ListReducer,
+  myWishes: ListItemReducer,
 };
 
 export default createStore(combineReducers(RootReducer), applyMiddleware(thunk));

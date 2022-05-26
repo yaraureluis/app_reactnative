@@ -8,7 +8,7 @@ import { selectListItem, deleteItem } from "./store/actions/listItem.action";
 export default function DetailItem({ navigation }) {
   const dispatch = useDispatch();
 
-  const data = useSelector((state) => state.lista.selected);
+  const data = useSelector((state) => state.myWishes.selected);
   const selectListItem = data;
   // const selectListItem = data;
 

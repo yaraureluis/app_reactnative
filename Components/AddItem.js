@@ -12,8 +12,8 @@ import MapView, { Marker } from "react-native-maps";
 
 export default function AddItem({ navigation }) {
   const dispatch = useDispatch();
-  let listaSeleccionada = useSelector((state) => state.todas.selected); //TRAE LA LISTA SELECCIONADA PARA UTILIZAR SU ID
-  let deseos_seleccionados = useSelector((state) => state.lista.deseos_seleccionados); // TRAE TODOS LOS DESEOS POR ID_REL
+  let listaSeleccionada = useSelector((state) => state.allMyLists.selected); //TRAE LA LISTA SELECCIONADA PARA UTILIZAR SU ID
+  let deseos_seleccionados = useSelector((state) => state.myWishes.fullWishes); // TRAE TODOS LOS DESEOS POR ID_REL
   console.log("LISTA SELECCIONADA ADDITEM LINEA 13", listaSeleccionada);
   console.log("DESEOS SELECCIONADOS ADDITEM LINEA 14", deseos_seleccionados);
 
@@ -164,23 +164,28 @@ export default function AddItem({ navigation }) {
   }, [listItems, showMapPicker, showMapPreview]);
   return (
     <>
-      <ScrollView>
-        <View style={styles.listado}>
-          <Text style={styles.textNormal}>NUEVO ARTÍCULO</Text>
+      <View style={styles.listado}>
+        <ScrollView>
+          <Text style={styles.textNormal}>NUEVO DESEO</Text>
           <TextInput style={styles.textInputs} placeholder="Nombre" value={textItem} onChangeText={onHandlerChangeItem} />
           <TextInput style={styles.textInputs} placeholder="Precio" value={priceItem} onChangeText={onHandlerChangePrice} />
-          {showMapPreview == true ? <MapPreview location={pickedLocation} /> : <></>}
-          {showMapPicker == true ? <MapPickerAreaView /> : <></>}
-          <View style={styles.btnContainer}>
-            <View style={styles.btn1}>
-              <Button title="Actual" color="#F79D9D" onPress={handlerGeoLocation} />
+          <View style={styles.containerLocation}>
+            {showMapPreview == true ? <MapPreview location={pickedLocation} /> : <></>}
+            {showMapPicker == true ? <MapPickerAreaView /> : <></>}
+            <View style={styles.btnLocationContainer}>
+              <View style={{ justifyContent: "center", flex: 1 }}>
+                <Text style={styles.textInputs2}>Ubicación</Text>
+              </View>
+              <View style={styles.btnLocation}>
+                <Button title="Actual" color="#BFBFBF" onPress={handlerGeoLocation} />
+              </View>
+              <View style={styles.btnLocation}>
+                <Button title="Seleccionar" color="#A4A6A6" onPress={handlerPickOnMap} />
+              </View>
             </View>
-            <View style={styles.btn1}>
-              <Button title="Seleccionar" color="#F79D9D" onPress={handlerPickOnMap} />
+            <View style={styles.btn2}>
+              <Button title="Guardar ubicación" color="#F79D9D" onPress={handlerSaveSelection} />
             </View>
-          </View>
-          <View style={styles.btn2}>
-            <Button title="Guardar ubicación" color="#00bcaa" onPress={handlerSaveSelection} />
           </View>
           <View style={styles.btnContainer}>
             <View style={styles.btn1}>
@@ -190,11 +195,11 @@ export default function AddItem({ navigation }) {
               <Button title="Agregar Deseo" color="#F79D9D" onPress={addItemList} />
             </View>
           </View>
-        </View>
-        <View style={{ flex: 1 }}>
-          <ListContainer listItems={listItems} setListItems={setListItems} navigation={navigation} />
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
+      <View style={{ flex: 1 }}>
+        <ListContainer listItems={listItems} setListItems={setListItems} navigation={navigation} />
+      </View>
     </>
   );
 }
@@ -205,7 +210,6 @@ const styles = StyleSheet.create({
     padding: 15,
     width: "100%",
     alignItems: "center",
-    flex: 1,
   },
   textNormal: {
     textAlign: "center",
@@ -224,8 +228,27 @@ const styles = StyleSheet.create({
     width: 320,
     fontSize: 16,
   },
+  textInputs2: {
+    color: "#9A9A9A",
+    fontSize: 16,
+    flexDirection: "column",
+    flex: 1,
+    textAlign: "left",
+    textAlignVertical: "center",
+  },
+  containerLocation: {
+    width: "100%",
+  },
   btnContainer: {
     flexDirection: "row",
+  },
+  btnLocationContainer: {
+    backgroundColor: "white",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    paddingLeft: 5,
+    borderRadius: 5,
+    flex: 2,
   },
   btn1: {
     width: 150,
@@ -236,6 +259,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     marginTop: 5,
     marginBottom: 10,
+  },
+  btnLocation: {
+    width: 110,
+    height: "100%",
   },
   containerMapView: {
     flex: 1,

@@ -1,5 +1,5 @@
 import * as FileSystem from "expo-file-system";
-import { insertNewList, SelectItems, insertNewItem, SelectItemsByIdRel, SelectItemsById, deleteItemById } from "../../../db";
+import { insertNewItem, SelectItemsByIdRel, deleteItemById } from "../../../db";
 
 export const SELECT_LIST_ITEM = "SELECT_LIST_ITEM";
 export const FILTERED_LIST_ITEM = "FILTERED_LIST_ITEM";
@@ -29,7 +29,7 @@ export const filteredList = (id_rel) => {
     try {
       const result = await SelectItemsByIdRel(id_rel);
       console.log(result);
-      dispatch({ type: FILTERED_LIST_ITEM, deseos: result.rows._array });
+      dispatch({ type: FILTERED_LIST_ITEM, wishes: result.rows._array });
     } catch (err) {
       throw err;
     }
