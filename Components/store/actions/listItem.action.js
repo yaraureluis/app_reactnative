@@ -5,7 +5,7 @@ export const SELECT_LIST_ITEM = "SELECT_LIST_ITEM";
 export const FILTERED_LIST_ITEM = "FILTERED_LIST_ITEM";
 export const ADD_ITEM_TO_SELECTED_LIST = "ADD_ITEM_TO_SELECTED_LIST";
 export const DELETE_ITEM_BY_ID = "DELETE_ITEM_BY_ID";
-const API_KEY = "AIzaSyCzIwMwGpVGresrGyKmLX7Bi1zL-NvOMVg";
+const API_KEY = "";
 
 export const selectListItem = (id) => ({
   type: SELECT_LIST_ITEM,

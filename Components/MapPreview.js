@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Image } from "react-native";
 
 //--NO IMPORTO MAP PORQUE VOY A PONER MI API KEY DE MAPS DIRECTAMENTE AQUI---/
 //-- COLOCAR ACÁ MI API KEY, O EN OTRO COMPONENTE QUE PUEDO IGNORAR EN GIT --/
-const API_KEY = "AIzaSyCzIwMwGpVGresrGyKmLX7Bi1zL-NvOMVg";
+const API_KEY = "";
 
 // COMO PROPS ESTOY NECESITANDO: location, lat, y lng, y la API_KEY
 const MapPreview = ({ location }) => {
