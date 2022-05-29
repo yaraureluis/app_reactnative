@@ -12,7 +12,7 @@ export default function ListContainer(props) {
   const dispatch = useDispatch();
 
   const onHandlerDelete = (id) => {
-    console.log("Item Eliminado - LISTCONTAINER.JS LINEA 15");
+    console.log("Item Eliminado");
     dispatch(deleteItem(id));
     setListItems((currenItems) => currenItems.filter((item) => item.id !== id));
     setItemSelected({});
@@ -30,8 +30,8 @@ export default function ListContainer(props) {
 
   return (
     <>
-      <View style={styles.listadoItems}>
-        <Text style={styles.tituloLista}>DESEOS EN MI LISTA</Text>
+      <View style={styles.itemsList}>
+        <Text style={styles.listTitle}>DESEOS EN MI LISTA</Text>
 
         <ListItem onHandlerModal={onHandlerModal} listItems={listItems} navigation={navigation} />
       </View>
@@ -42,7 +42,7 @@ export default function ListContainer(props) {
 }
 
 const styles = StyleSheet.create({
-  listadoItems: {
+  itemsList: {
     borderTopColor: "#00bcaa",
     borderTopWidth: 3,
     backgroundColor: "white",
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
   },
-  tituloLista: {
+  listTitle: {
     textAlign: "center",
     marginBottom: 5,
     fontWeight: "bold",

@@ -1,26 +1,43 @@
 import { Text, View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { selectList } from "../store/actions/list.action";
+import ModalItem from "../Modal";
+import { selectList, deleteItem } from "../store/actions/list.action";
 import { filteredList } from "../store/actions/listItem.action";
+import React, { useState } from "react";
 
 export default function CompleteListScreen({ navigation }) {
-  const datos = useSelector((state) => state.allMyLists.fullLists);
+  const myLists = useSelector((state) => state.allMyLists.fullLists);
   const dispatch = useDispatch();
-
-  console.log("DATOS EN PANTALLA DE LISTAS", datos);
+  const [itemSelected, setItemSelected] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handledSelectedList = (item) => {
-    console.log("<<<<<<<<<<< click en lista de MIS LISTAS >>>>>>>");
-    console.log("DATOS ID: " + +item.id);
-    console.log("DATOS TITLE: " + item.title);
     dispatch(selectList(+item.id));
     dispatch(filteredList(+item.id));
 
     navigation.navigate("List", { id: +item.id, title: item.title });
   };
 
+  //-------------LOGICA PARA BORRAR UNA LISTA------------------------/
+
+  const onHandlerDelete = (id) => {
+    dispatch(deleteItem(id));
+    setModalVisible(!modalVisible);
+  };
+
+  const onHandlerModal = (id) => {
+    setItemSelected(myLists.filter((item) => item.id === id)[0]); //FIJAR LISTA ACA
+    dispatch(selectList(id));
+    setModalVisible(!modalVisible);
+  };
+  const closeModal = () => {
+    setModalVisible(!modalVisible);
+  };
+
+  //----------FIN LOGICA PARA BORRAR UNA LISTA-------------------/
+
   const Item = ({ item }) => (
-    <TouchableOpacity style={styles.containerListItem} onPress={() => handledSelectedList(item)}>
+    <TouchableOpacity style={styles.containerListItem} onPress={() => handledSelectedList(item)} onLongPress={onHandlerModal.bind(this, item.id)}>
       <Text style={styles.itemList}>{item.title}</Text>
       <Text style={styles.itemDate}>{item.date}</Text>
     </TouchableOpacity>
@@ -28,18 +45,16 @@ export default function CompleteListScreen({ navigation }) {
   const renderItem = ({ item }) => <Item item={item} />;
   return (
     <>
-      <Text style={styles.tituloLista}>Todas mis listas</Text>
+      <Text style={styles.listTitle}>Todas mis listas</Text>
       <View style={styles.listGroup}>
-        <FlatList data={datos} renderItem={renderItem} keyExtractor={(item) => item.id} />
+        <FlatList data={myLists} renderItem={renderItem} keyExtractor={(item) => item.id} />
       </View>
+      <ModalItem onDelete={onHandlerDelete} item={itemSelected} visible={modalVisible} onCancel={closeModal} navigation={navigation} />
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   containerListItem: {
     width: "100%",
     backgroundColor: "white",
@@ -47,32 +62,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     paddingVertical: 5,
-  },
-  image: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  brandText: {
-    color: "white",
-    fontSize: 60,
-    lineHeight: 75,
-    fontFamily: "GrapeNuts",
-    textAlign: "center",
-    backgroundColor: "#000000c0",
-    flex: 1,
-    marginTop: 250,
-    width: "100%",
-  },
-  subText: {
-    color: "white",
-    fontSize: 18,
-    lineHeight: 18,
-    marginTop: 20,
-    marginBottom: 20,
-    fontStyle: "italic",
-    textAlign: "center",
-    flex: 1,
   },
   itemList: {
     color: "#65c4c9",
@@ -91,7 +80,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     paddingBottom: 2,
   },
-  tituloLista: {
+  listTitle: {
     color: "white",
     fontSize: 22,
     lineHeight: 22,
@@ -105,44 +94,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     textAlignVertical: "center",
   },
-  creaTuLista: {
-    color: "#65c4c9",
-    fontSize: 22,
-    lineHeight: 22,
-    paddingVertical: 10,
-    fontStyle: "italic",
-    textAlign: "center",
-    fontWeight: "bold",
-    width: "100%",
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
-    flex: 1,
-    textAlignVertical: "center",
-  },
   listGroup: {
     flex: 15,
     padding: 10,
-  },
-  signature: {
-    color: "white",
-    fontSize: 10,
-    lineHeight: 10,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginVertical: 10,
-  },
-  btnNuevaLista: {
-    width: "70%",
-    justifyContent: "center",
-    flex: 1,
-  },
-  containerListas: {
-    width: "80%",
-    backgroundColor: "#FFFFFFc0",
-    alignItems: "center",
-    height: 30,
-    flex: 3,
-    marginBottom: 10,
-    borderRadius: 5,
   },
 });

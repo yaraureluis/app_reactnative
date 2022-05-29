@@ -1,13 +1,13 @@
-import { insertNewList, SelectListas } from "../../../db";
+import { insertNewList, SelectListas, deleteList } from "../../../db";
 export const SELECT_LIST = "SELECT_LIST";
 export const CREATE_LIST = "CREATE_LIST";
 export const SET_ALL_LISTS = "SET_ALL_LISTS";
+export const DELETE_LIST_BY_ID = "DELETE_LIST_BY_ID";
 
 export const setAllLists = () => {
   return async (dispatch) => {
     try {
       const result = await SelectListas();
-      console.log(result);
       dispatch({ type: SET_ALL_LISTS, listsDB: result.rows._array });
     } catch (err) {
       throw err;
@@ -28,11 +28,21 @@ export const createList = (data) => {
     //
     try {
       let newListInserted = await insertNewList(data.date, data.title);
-      console.log("LIST.ACTION  LISTA INSERTADA", newListInserted);
 
       dispatch({ type: CREATE_LIST, data: [{ id: newListInserted.insertId, date: data.date, title: data.title, list_items: [] }] });
     } catch (err) {
-      console.log("ERROR AL INSERTAR NUEVA LISTA EN LIST.ACTION LINEA 20", err);
+      throw err;
+    }
+  };
+};
+
+export const deleteItem = (id) => {
+  return async (dispatch) => {
+    try {
+      const result = await deleteList(id);
+      dispatch({ type: DELETE_LIST_BY_ID, deleted_list_id: id });
+    } catch (err) {
+      throw err;
     }
   };
 };

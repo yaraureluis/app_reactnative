@@ -10,9 +10,7 @@ export default function DetailItem({ navigation }) {
 
   const data = useSelector((state) => state.myWishes.selected);
   const selectListItem = data;
-  // const selectListItem = data;
 
-  console.log("VISUALIZANDO DETALLE DEL ITEM: ", selectListItem.title);
   const [itemSelected, setItemSelected] = useState({});
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -25,7 +23,7 @@ export default function DetailItem({ navigation }) {
   };
 
   const onHandlerDelete = (id) => {
-    console.log("Item Eliminado - LISTCONTAINER.JS LINEA 15");
+    console.log("Item Eliminado");
     dispatch(deleteItem(id));
     setItemSelected({});
     setModalVisible(!modalVisible);
@@ -55,12 +53,6 @@ export default function DetailItem({ navigation }) {
           </View>
           <View style={styles.locationContainer}>
             <MapPreview style={styles.mapa} location={{ lat: selectListItem.lat, lng: selectListItem.lng }} />
-            {/* <Image
-            style={styles.mapa}
-            source={{
-              uri: "https://i0.wp.com/www.cssscript.com/wp-content/uploads/2018/03/Simple-Location-Picker.png?fit=561%2C421&ssl=1",
-            }}
-          /> */}
           </View>
           <View style={styles.btnContainer}>
             <View style={styles.btn1}>

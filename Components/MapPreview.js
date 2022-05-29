@@ -1,15 +1,9 @@
 import React from "react";
 import { Text, View, StyleSheet, Image } from "react-native";
+import { MapsConfig } from "./Constants/Maps";
 
-//--NO IMPORTO MAP PORQUE VOY A PONER MI API KEY DE MAPS DIRECTAMENTE AQUI---/
-//-- COLOCAR ACÁ MI API KEY, O EN OTRO COMPONENTE QUE PUEDO IGNORAR EN GIT --/
-const API_KEY = "";
-
-// COMO PROPS ESTOY NECESITANDO: location, lat, y lng, y la API_KEY
 const MapPreview = ({ location }) => {
-  const MapPreviewUrl = location ? `https://maps.googleapis.com/maps/api/staticmap?center=${location.lat},${location.lng}&zoom=15&size=600x300&maptype=roadmap&markers=color:red%7Clabel:S%7C${location.lat},${location.lng}&key=${API_KEY}` : ``;
-
-  console.log("UBICACIÓN EN MapPreview.js LINEA 12", MapPreviewUrl);
+  const MapPreviewUrl = location ? `https://maps.googleapis.com/maps/api/staticmap?center=${location.lat},${location.lng}&zoom=15&size=600x300&maptype=roadmap&markers=color:red%7Clabel:S%7C${location.lat},${location.lng}&key=${MapsConfig.API_KEY}` : ``;
 
   const loadingLocation = <Text>...cargando ubicacion .</Text>;
 

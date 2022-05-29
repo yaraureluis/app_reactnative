@@ -1,28 +1,27 @@
 {
   "expo": {
-    "name": "reactproject",
-    "slug": "reactproject",
+    "name": "Patilla",
+    "slug": "Patilla",
     "version": "1.0.0",
+    "platforms": ["android"],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#F48596"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#F48596"
       }
     },
     "web": {

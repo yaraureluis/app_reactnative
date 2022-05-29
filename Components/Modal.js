@@ -2,27 +2,26 @@ import { Text, View, Button, Modal, StyleSheet } from "react-native";
 
 export default function ModalItem(props) {
   const { visible, onDelete, item, onCancel, navigation } = props;
-
   return (
     <Modal animationType="slide" visible={visible}>
       <View style={styles.modalCentered}>
         <View style={styles.modalView}>
-          <View style={styles.tituloModal}>
+          <View style={styles.modalTitle}>
             <Text style={styles.textNormal}>¡ATENCIÓN!</Text>
           </View>
-          <View style={styles.cuerpoModal}>
+          <View style={styles.modalBody}>
             <View>
-              <Text>Desea borrar el item?</Text>
+              <Text>¿Desea borrar el elemento?</Text>
             </View>
             <View>
-              <Text>{item.value}</Text>
+              <Text>{item.title}</Text>
             </View>
           </View>
           <View style={styles.btnContainer}>
-            <View style={styles.botonModal}>
+            <View style={styles.modalButton}>
               <Button title="Confirmar" color="#65c4c9" onPress={onDelete.bind(this, item.id)} />
             </View>
-            <View style={styles.botonModal}>
+            <View style={styles.modalButton}>
               <Button title="Cancelar" color="#00bcaa" onPress={onCancel.bind(this)} />
             </View>
           </View>
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     overflow: "hidden",
   },
-  tituloModal: {
+  modalTitle: {
     flex: 4,
     backgroundColor: "#c1e0e0",
     width: "100%",
@@ -60,7 +59,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     textAlignVertical: "center",
   },
-  cuerpoModal: {
+  modalBody: {
     flex: 7,
     justifyContent: "center",
     alignItems: "center",
@@ -75,7 +74,7 @@ const styles = StyleSheet.create({
   btnContainer: {
     flexDirection: "row",
   },
-  botonModal: {
+  modalButton: {
     width: 110,
     flex: 2,
     marginHorizontal: 5,

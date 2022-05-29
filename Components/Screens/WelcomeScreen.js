@@ -1,16 +1,15 @@
 import { Text, View, Button, ImageBackground, StyleSheet, Image, FlatList, TextInput, KeyboardAvoidingView, TouchableOpacity } from "react-native";
-import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+import * as SplashScreen from "expo-splash-screen";
+import * as Font from "expo-font";
 import { useDispatch, useSelector } from "react-redux";
 import { selectList, createList, setAllLists } from "../store/actions/list.action";
 import { filteredList } from "../store/actions/listItem.action";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 export default function WelcomeScreen({ navigation }) {
   const myLists = useSelector((state) => state.allMyLists.fullLists);
   const lastLists = myLists.slice(-4);
   const dispatch = useDispatch();
-  console.log("DATOS EN WELCOME SCREEN LINEA 11", lastLists);
 
   useEffect(() => {
     dispatch(setAllLists());
@@ -35,11 +34,9 @@ export default function WelcomeScreen({ navigation }) {
   };
   const handleCreteList = (new_title) => {
     if (!new_title) {
-      console.log("TITULO VACIO");
       alert("Para crear una lista debe escribir un título");
       return false;
     }
-    console.log("NUEVO TITULO WelcomeScreen linea 37", new_title);
     const new_date = new Date().toLocaleDateString();
     const item = { date: new_date, title: new_title };
     dispatch(createList(item));
@@ -48,12 +45,36 @@ export default function WelcomeScreen({ navigation }) {
   };
 
   // ------------------------ FIN LOGICA NUEVA LISTA ------------------------ /
-  const [loaded] = useFonts({
-    GrapeNuts: require("../../assets/fonts/GrapeNuts-Regular.ttf"),
-  });
 
-  if (!loaded) return <AppLoading />;
+  // -----------------------LOGICA EXPO SPLASH SCREEN------------------------- /
+  const [appIsReady, setAppIsReady] = useState(false);
 
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await SplashScreen.preventAutoHideAsync();
+        await Font.loadAsync({
+          GrapeNuts: require("../../assets/fonts/GrapeNuts-Regular.ttf"),
+        });
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
+    prepare();
+  }, []);
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
+  //-----------------------FIN LOGICA EXPO SPLASH SCREEN----------------------- /
   const image = require("../../assets/img/wallpaper_patilla2.jpg");
   const logo = require("../../assets/img/logo_patilla.png");
 
@@ -67,7 +88,7 @@ export default function WelcomeScreen({ navigation }) {
 
   return (
     <>
-      <View style={styles.container}>
+      <View style={styles.container} onLayout={onLayoutRootView}>
         <KeyboardAvoidingView style={styles.containerKeyboardAvoidingView} behavior={"height"}>
           <ImageBackground source={image} resizeMode="cover" style={styles.image}>
             <Image style={styles.logo} source={logo} />
@@ -87,8 +108,8 @@ export default function WelcomeScreen({ navigation }) {
             <View style={styles.listsContainer}>
               {!lastLists.length ? (
                 <>
-                  <Text style={styles.createNewListText}>TU LISTA DE HOY, TU COMPRA DE MAÑANA!</Text>
-                  <Text style={styles.createNewListText}> CREA TU LISTA DE DESEOS AHORA!</Text>
+                  <Text style={styles.createNewListText}>Tus deseos se cumplen...</Text>
+                  <Text style={styles.createNewListText}> ¡CREA TU NUEVA LISTA AHORA!</Text>
                 </>
               ) : (
                 <>
@@ -140,16 +161,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#000000c0",
 
     width: "100%",
-  },
-  subText: {
-    color: "white",
-    fontSize: 18,
-    lineHeight: 18,
-    marginTop: 20,
-    marginBottom: 20,
-    fontStyle: "italic",
-    textAlign: "center",
-    flex: 1,
   },
   itemList: {
     color: "#65c4c9",

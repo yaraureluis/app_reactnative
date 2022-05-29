@@ -8,14 +8,11 @@ import * as Permission from "expo-permissions";
 import * as Location from "expo-location";
 import MapPreview from "./MapPreview";
 import MapView, { Marker } from "react-native-maps";
-// import { useFocusEffect } from "@react-navigation/native";
 
 export default function AddItem({ navigation }) {
   const dispatch = useDispatch();
-  let listaSeleccionada = useSelector((state) => state.allMyLists.selected); //TRAE LA LISTA SELECCIONADA PARA UTILIZAR SU ID
-  let deseos_seleccionados = useSelector((state) => state.myWishes.fullWishes); // TRAE TODOS LOS DESEOS POR ID_REL
-  console.log("LISTA SELECCIONADA ADDITEM LINEA 13", listaSeleccionada);
-  console.log("DESEOS SELECCIONADOS ADDITEM LINEA 14", deseos_seleccionados);
+  let selectedList = useSelector((state) => state.allMyLists.selected); //TRAE LA LISTA SELECCIONADA PARA UTILIZAR SU ID
+  let selectedWishes = useSelector((state) => state.myWishes.fullWishes); // TRAE TODOS LOS DESEOS POR ID_REL
 
   // VALORES QUE SE INGRESAN EN EL INPUT, LUEGO DEBO CAMBIAR LOCATION
   const [textItem, setTextItem] = useState();
@@ -23,7 +20,7 @@ export default function AddItem({ navigation }) {
 
   //------------SETEO INICIALMENTE LOS ITEMS DE LA LISTA CON EL CONTENIDO DE LA LISTA SELECCIONADA-------/
   let inicial = [];
-  inicial = deseos_seleccionados;
+  inicial = selectedWishes;
   const [listItems, setListItems] = useState(inicial);
 
   useEffect(() => {
@@ -90,10 +87,8 @@ export default function AddItem({ navigation }) {
     setShowMapPicker(false); // OCULTO LA VISTA PREVIA DEL MAPA NAVEGABLE
 
     const location = await Location.getCurrentPositionAsync({ timeout: 5000 });
-    console.log("LOCATION EN ADDITEM LINEA 100:", location);
     setMainLocation({ lat: location.coords.latitude, lng: location.coords.longitude });
     setPickedLocation({ lat: location.coords.latitude, lng: location.coords.longitude });
-    console.log("LATITUD Y LONGITUD MAPPREVIEW.JS LINEA 84", location.coords.latitude, location.coords.longitude);
   };
 
   //-------------------- ELEMENTOS PARA SELECCIONAR UBICACION DEL MAPA -------/
@@ -147,15 +142,12 @@ export default function AddItem({ navigation }) {
   // -------------------------------- FIN DE LÓGICA PARA AGREGAR DIRECCIÓN --------------------------------/
 
   const addItemList = () => {
-    console.log("LENGTH >>>", listItems.length);
     if (textItem != "" && priceItem != "") {
-      setListItems([...listItems, { title: textItem, price: priceItem, image: pickerURI, address: mainLocation, lat: mainLocation.lat, lng: mainLocation.lng, id_rel: listaSeleccionada.id }]);
+      setListItems([...listItems, { title: textItem, price: priceItem, image: pickerURI, address: mainLocation, lat: mainLocation.lat, lng: mainLocation.lng, id_rel: selectedList.id }]);
       setTextItem("");
       setPriceItem("");
       // PASO LOS DATOS AL listItems.action para hacer push a la lista de ese nuevo articulo agregado
-      dispatch(addItemtoWishList({ title: textItem, price: priceItem, image: pickerURI, address: mainLocation, lat: mainLocation.lat, lng: mainLocation.lng, id_rel: listaSeleccionada.id }));
-
-      console.log("ITEM AGREGADOO > LISTA: " + listItems);
+      dispatch(addItemtoWishList({ title: textItem, price: priceItem, image: pickerURI, address: mainLocation, lat: mainLocation.lat, lng: mainLocation.lng, id_rel: selectedList.id }));
     }
   };
 
@@ -164,9 +156,9 @@ export default function AddItem({ navigation }) {
   }, [listItems, showMapPicker, showMapPreview]);
   return (
     <>
-      <View style={styles.listado}>
+      <View style={styles.listContainer}>
         <ScrollView>
-          <Text style={styles.textNormal}>NUEVO DESEO</Text>
+          <Text style={styles.addWishTitle}>NUEVO DESEO</Text>
           <TextInput style={styles.textInputs} placeholder="Nombre" value={textItem} onChangeText={onHandlerChangeItem} />
           <TextInput style={styles.textInputs} placeholder="Precio" value={priceItem} onChangeText={onHandlerChangePrice} />
           <View style={styles.containerLocation}>
@@ -205,13 +197,13 @@ export default function AddItem({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  listado: {
+  listContainer: {
     backgroundColor: "#5fcdcf",
     padding: 15,
     width: "100%",
     alignItems: "center",
   },
-  textNormal: {
+  addWishTitle: {
     textAlign: "center",
     marginBottom: 5,
     fontWeight: "bold",
