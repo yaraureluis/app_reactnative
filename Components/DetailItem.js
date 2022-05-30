@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   price: {
     paddingLeft: 12,
     paddingRight: 3,
-    fontSize: 40,
+    fontSize: 33,
     color: "white",
     textAlign: "center",
     fontWeight: "bold",
