@@ -1,6 +1,6 @@
 # React Native App
 
-Hola a todos, en este repositorio podrán encontrar las actividades, ejemplos y avances de lo que será mi proyecto de la cursada "Desarrollo de Aplicaciones". Poco a poco se irán incorporando elementos, basados en las clases vistas.
+Hola a todos, en este repositorio podrán conseguir una app desarrllada para el curso DESARROLLO DE APLICACIONES EN CODER HOUSE. Se trata de PATILLA WISH LIST, una lista de deseos, donde puedes agregar diferentes listas y en ellas incluir deseos. Los deseos pueden tener nombre, precio, asignar una ubicación, la que puede ser buscada en el mapa o la ubicación actual del usuario y una foto.
 
 - Para instalar todas las dependencias/librerias debes utilizar el comando npm install
 - Para inicializar la app debes utilzar el comando expo start
@@ -8,7 +8,7 @@ Hola a todos, en este repositorio podrán encontrar las actividades, ejemplos y 
 
 ## SCREENSHOTS DE LA APP
 
-<img src="https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp1a.jpg?raw=true" height="1200">
+<img src="https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp1.jpg?raw=true" height="1200">
 
 ## MUESTRA DE LA APP
 
@@ -18,4 +18,4 @@ Hola a todos, en este repositorio podrán encontrar las actividades, ejemplos y 
 
 Ing. Luis Alexander Yaraure Cossi, estudiante de la Carrera Desarrollo Full Stack y Desarrollo de Aplicaciones
 
-**IMPORTANTE:** \_este es un proyecto en desarrollo, que está basado en los **requerimientos del Curso Desarrollo de Aplicaciones con React Native de CODERHOUSE.**
+**IMPORTANTE:** \_este es un proyecto que pudera ser modificado a futuro, se desarrolló basado en los **requerimientos del Curso Desarrollo de Aplicaciones con React Native de CODERHOUSE.**
