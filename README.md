@@ -8,7 +8,7 @@ Hola a todos, en este repositorio podrán conseguir una app desarrllada para el 
 
 ## SCREENSHOTS DE LA APP
 
-<img src="https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp1.jpg?raw=true" height="1200">
+<img src="https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp1.jpg?raw=true" >
 
 ## MUESTRA DE LA APP
 
