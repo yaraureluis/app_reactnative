@@ -6,19 +6,13 @@ Hola a todos, en este repositorio podrán encontrar las actividades, ejemplos y 
 - Para inicializar la app debes utilzar el comando expo start
 - Para poder probar la app con las funcionalidades de geolocalización y acceso a location con las APIs de Google, debes ingresar tu propia API Key.
 
+## SCREENSHOTS DE LA APP
+
+<img src="https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp1a.jpg?raw=true" height="1200">
+
 ## MUESTRA DE LA APP
 
 ## ![image](https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp1.gif?raw=true)
-
-## SCREENSHOTS DE LA APP
-
-<img src="https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp1a.jpeg?raw=true" height="600">
-
-<img src="https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp2a.jpeg?raw=true" height="600">
-
-<img src="https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp3a.jpeg?raw=true" height="600">
-
-<img src="https://github.com/yaraureluis/app_reactnative/blob/main/assets/muestraApp4a.jpeg?raw=true" height="600">
 
 ## Autor
 
