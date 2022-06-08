@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, Button, StyleSheet, Image, ScrollView } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import MapPreview from "./MapPreview";
@@ -7,6 +7,7 @@ import { selectListItem, deleteItem } from "./store/actions/listItem.action";
 
 export default function DetailItem({ navigation }) {
   const dispatch = useDispatch();
+  const [dolarPrice, setDolarPrice] = useState(0);
 
   const data = useSelector((state) => state.myWishes.selected);
   const selectListItem = data;
@@ -29,6 +30,22 @@ export default function DetailItem({ navigation }) {
     setModalVisible(!modalVisible);
     navigation.navigate("List");
   };
+
+  const calculateDolarPrice = async () => {
+    let dolar = await fetch("https://api-dolar-argentina.herokuapp.com/api/dolarblue");
+    let response = await dolar.json();
+    console.log("RESPONSE", response);
+    console.log(parseFloat(response.venta));
+    console.log(+selectListItem.price / parseFloat(response.venta));
+    let dolarPrice = +selectListItem.price / parseFloat(response.venta);
+    setDolarPrice(dolarPrice.toFixed(2));
+    return dolarPrice;
+  };
+
+  useEffect(() => {
+    calculateDolarPrice();
+  }, []);
+
   return (
     <>
       <ScrollView>
@@ -40,7 +57,10 @@ export default function DetailItem({ navigation }) {
 
                 <Text style={styles.locationText}>{selectListItem.address} </Text>
               </View>
-              <Text style={styles.price}>$ {selectListItem.price}</Text>
+              <View>
+                <Text style={styles.price}>$ {selectListItem.price}</Text>
+                <Text style={styles.dolarPrice}>USD {dolarPrice}</Text>
+              </View>
             </View>
           </View>
           <View style={styles.imgContainer}>
@@ -80,16 +100,26 @@ const styles = StyleSheet.create({
   textNormal: {
     fontWeight: "bold",
     color: "white",
-    fontSize: 22,
+    fontSize: 20,
     textAlign: "right",
     textAlignVertical: "center",
   },
   price: {
     paddingLeft: 12,
     paddingRight: 3,
-    fontSize: 33,
+    fontSize: 30,
     color: "white",
     textAlign: "center",
+    fontWeight: "bold",
+    borderLeftColor: "white",
+    borderLeftWidth: 1,
+  },
+  dolarPrice: {
+    paddingLeft: 12,
+    paddingRight: 3,
+    fontSize: 16,
+    color: "white",
+    textAlign: "right",
     fontWeight: "bold",
     borderLeftColor: "white",
     borderLeftWidth: 1,
